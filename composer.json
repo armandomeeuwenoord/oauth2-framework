@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^7.1",
-        "web-token/jwt-framework": "1.1.x-dev@dev",
+        "web-token/jwt-framework": "^1.1@dev",
         "beberlei/assert": "^2.7.4",
         "doctrine/annotations": "^1.2",
         "php-http/httplug": "^1.1",
