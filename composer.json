@@ -29,6 +29,7 @@
         "symfony/symfony": "^3.3",
         "sensio/framework-extra-bundle": "^5.0",
         "simple-bus/message-bus": "^3.0",
+        "simple-bus/symfony-bridge": "^5.0",
         "mnapoli/fluent-symfony": "^0.1.5",
         "php-http/httplug-bundle": "^1.7",
         "psr/http-message": "^1.0"
