@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^7.1",
-        "spomky-labs/jose": "^7.0@dev",
+        "web-token/jwt-framework": "dev-master",
         "beberlei/assert": "^2.7.4",
         "doctrine/annotations": "^1.2",
         "php-http/httplug": "^1.1",
