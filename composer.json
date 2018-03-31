@@ -27,7 +27,7 @@
         "league/json-guard": "^1.0",
         "league/json-reference": "^1.0",
         "symfony/symfony": "^3.3",
-        "sensio/framework-extra-bundle": "^3.0.8",
+        "sensio/framework-extra-bundle": "^5.0",
         "simple-bus/message-bus": "^3.0",
         "simple-bus/symfony-bridge": "^5.0",
         "mnapoli/fluent-symfony": "^0.1.5",
