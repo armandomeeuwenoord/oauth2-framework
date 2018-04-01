@@ -20,14 +20,14 @@ interface ClientRepository
      *
      * @param Client $client
      */
-    public function save(Client $client);
+    public function save(ClientInterface $client);
 
     /**
      * Get a client using its Id.
      *
      * @param ClientId $clientId
      *
-     * @return null|Client return the client object or null if no client is found
+     * @return null|ClientInterface return the client object or null if no client is found
      */
-    public function find(ClientId $clientId): ? Client;
+    public function find(ClientId $clientId): ? ClientInterface;
 }

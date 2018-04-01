@@ -25,7 +25,7 @@ abstract class Id implements \JsonSerializable
      *
      * @param $value
      */
-    protected function __construct(string $value)
+    public function __construct(string $value)
     {
         $this->value = $value;
     }

@@ -79,11 +79,17 @@ abstract class AuthorizationEndpoint implements MiddlewareInterface
             $authorization = $this->userAccountDiscoveryManager->find($authorization);
             $this->userAccountDiscoveryManager->check($authorization);
 
+            var_dump('hallo');
+            die;
+
             if (null === $authorization->getUserAccount()) {
                 return $this->redirectToLoginPage($authorization, $request);
             }
 
+            var_dump('hallo');
             $authorization = $this->consentScreenExtensionManager->processBefore($request, $authorization);
+
+            var_dump('hallo');
 
             return $this->processConsentScreen($request, $authorization);
         } catch (OAuth2AuthorizationException $e) {

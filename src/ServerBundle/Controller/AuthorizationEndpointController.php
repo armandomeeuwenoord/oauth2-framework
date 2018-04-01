@@ -148,6 +148,9 @@ class AuthorizationEndpointController extends AuthorizationEndpoint
      */
     protected function processConsentScreen(ServerRequestInterface $request, Authorization $authorization): ResponseInterface
     {
+
+        var_dump($request->getAttributes());
+
         //FIXME: $options = $this->processConsentScreenOptions($authorization);
         $ui_locale = $this->getUiLocale($authorization);
         $options = array_merge(
@@ -198,7 +201,7 @@ class AuthorizationEndpointController extends AuthorizationEndpoint
         );
 
         $response = $this->messageFactory->createResponse(200);
-        $response->getBody()->write($content);
+//        $response->getBody()->write($content);
 
         return $response;
     }

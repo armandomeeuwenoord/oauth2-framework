@@ -15,6 +15,6 @@ namespace OAuth2Framework\Component\Core\ResourceOwner;
 
 use OAuth2Framework\Component\Core\Id\Id;
 
-abstract class ResourceOwnerId extends Id implements \JsonSerializable
+class ResourceOwnerId extends Id implements \JsonSerializable
 {
 }

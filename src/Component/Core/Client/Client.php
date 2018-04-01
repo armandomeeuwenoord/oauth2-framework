@@ -30,7 +30,7 @@ use SimpleBus\Message\Recorder\PrivateMessageRecorderCapabilities;
  * A client is a resource owner with a set of allowed grant types and can perform requests against
  * available endpoints.
  */
-class Client implements ResourceOwner, ContainsRecordedMessages, DomainObject
+class Client implements ResourceOwner, ContainsRecordedMessages, DomainObject, ClientInterface
 {
     use PrivateMessageRecorderCapabilities;
 
@@ -57,7 +57,7 @@ class Client implements ResourceOwner, ContainsRecordedMessages, DomainObject
     /**
      * ClientCredentials constructor.
      */
-    private function __construct()
+    public function __construct()
     {
         $this->parameters = DataBag::create([]);
     }
