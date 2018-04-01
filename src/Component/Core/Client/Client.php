@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace OAuth2Framework\Component\Core\Client;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use OAuth2Framework\Component\Core\Client\Event as ClientEvent;
 use OAuth2Framework\Component\Core\DataBag\DataBag;
 use OAuth2Framework\Component\Core\Event\Event;
@@ -30,7 +31,7 @@ use SimpleBus\Message\Recorder\PrivateMessageRecorderCapabilities;
  * A client is a resource owner with a set of allowed grant types and can perform requests against
  * available endpoints.
  */
-class Client implements ResourceOwner, ContainsRecordedMessages, DomainObject, ClientInterface
+class Client implements ResourceOwner, ContainsRecordedMessages, ClientInterface
 {
     use PrivateMessageRecorderCapabilities;
 
@@ -59,7 +60,7 @@ class Client implements ResourceOwner, ContainsRecordedMessages, DomainObject, C
      */
     public function __construct()
     {
-        $this->parameters = DataBag::create([]);
+        $this->parameters = new ArrayCollection();
     }
 
     /**
@@ -168,11 +169,6 @@ class Client implements ResourceOwner, ContainsRecordedMessages, DomainObject, C
      */
     public function isGrantTypeAllowed(string $grant_type): bool
     {
-        $grant_types = $this->has('grant_types') ? $this->get('grant_types') : [];
-        if (!is_array($grant_types)) {
-            throw new \InvalidArgumentException('The metadata "grant_types" must be an array.');
-        }
-
         return in_array($grant_type, $grant_types);
     }
 

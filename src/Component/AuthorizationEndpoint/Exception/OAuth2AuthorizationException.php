@@ -14,8 +14,9 @@ declare(strict_types=1);
 namespace OAuth2Framework\Component\AuthorizationEndpoint\Exception;
 
 use OAuth2Framework\Component\AuthorizationEndpoint\Authorization;
+use OAuth2Framework\Component\Core\Exception\OAuth2Exception;
 
-class OAuth2AuthorizationException extends \Exception
+class OAuth2AuthorizationException extends OAuth2Exception
 {
     /**
      * @var Authorization
@@ -41,7 +42,7 @@ class OAuth2AuthorizationException extends \Exception
         $this->authorization = $authorization;
         $this->errorDescription = $errorDescription;
 
-        parent::__construct($error, $code, $previous);
+        parent::__construct($code, $error, $errorDescription, $previous);
     }
 
     /**

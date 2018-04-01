@@ -59,11 +59,11 @@ class ScopeParameterChecker implements ParameterChecker
             $requestedScope = $this->scopePolicyManager->apply($requestedScope, $authorization->getClient());
             $scopes = explode(' ', $requestedScope);
 
-            $availableScope = $this->scopeRepository->getAvailableScopesForClient($authorization->getClient());
+            $availableScope = explode(' ', $this->scopeRepository->getAvailableScopesForClient($authorization->getClient()));
             if (!$this->scopeRepository->areRequestedScopesAvailable($scopes, $availableScope)) {
                 throw new \InvalidArgumentException(sprintf('An unsupported scope was requested. Available scopes for the client are %s.', implode(', ', $availableScope)));
             }
-            $authorization = $authorization->withScopes($scope);
+            $authorization = $authorization->withScopes($scopes);
 
             return $authorization;
         } catch (\InvalidArgumentException $e) {

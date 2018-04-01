@@ -42,6 +42,11 @@ class Authorization
     private $userAccountFullyAuthenticated = null;
 
     /**
+     * @var string[]
+     */
+    private $scopes = [];
+
+    /**
      * @var array
      */
     private $data = [];
@@ -373,6 +378,69 @@ class Authorization
     public function hasPrompt(string $prompt): bool
     {
         return in_array($prompt, $this->getPrompt());
+    }
+
+    /**
+     * @param array $scope
+     *
+     * @return Authorization
+     */
+    public function withScopes(array $scope): self
+    {
+        $clone = clone $this;
+        $clone->scopes = $scope;
+
+        return $clone;
+    }
+
+    /**
+     * @return array
+     */
+    public function getScopes(): array
+    {
+        return $this->scopes;
+    }
+
+    /**
+     * @param string $scope
+     *
+     * @return bool
+     */
+    public function hasScope(string $scope): bool
+    {
+        return null !== $this->scopes && in_array($scope, $this->scopes);
+    }
+
+    /**
+     * @param string $scope
+     *
+     * @return Authorization
+     */
+    public function withoutScope(string $scope): self
+    {
+        if (!$this->hasScope($scope)) {
+            return $this;
+        }
+        $clone = clone $this;
+        unset($clone->scopes[array_search($scope, $clone->scopes)]);
+
+        return $clone;
+    }
+
+    /**
+     * @param string $scope
+     *
+     * @return Authorization
+     */
+    public function addScope(string $scope): self
+    {
+        if ($this->hasScope($scope)) {
+            return $this;
+        }
+        $clone = clone $this;
+        $clone->scopes[] = $scope;
+
+        return $clone;
     }
 
     /**
