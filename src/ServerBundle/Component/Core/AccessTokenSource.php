@@ -16,6 +16,7 @@ namespace OAuth2Framework\ServerBundle\Component\Core;
 use OAuth2Framework\ServerBundle\Component\Component;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
@@ -34,12 +35,12 @@ class AccessTokenSource implements Component
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $container->setAlias('oauth2_server.access_token_repository', $configs['access_token']['repository']);
-        $container->setAlias('oauth2_server.access_token_id_generator', $configs['access_token']['id_generator']);
-        $container->setParameter('oauth2_server.access_token_lifetime', $configs['access_token']['lifetime']);
-
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/core'));
         $loader->load('access_token.php');
+
+        $container->setParameter('oauth2_server.grant.access_token.repository', $configs['access_token']['repository']);
+        $container->setParameter('oauth2_server.grant.access_token.id_generator', $configs['access_token']['id_generator']);
+        $container->setParameter('oauth2_server.grant.access_token.lifetime', $configs['access_token']['lifetime']);
     }
 
     /**
@@ -53,10 +54,12 @@ class AccessTokenSource implements Component
                 ->children()
                     ->scalarNode('repository')
                         ->info('The access token repository service')
+//                        ->defaultValue('oauth2_server.grant.access_token.repository')
                         ->isRequired()
                     ->end()
                     ->scalarNode('id_generator')
                         ->info('The access token ID generator service')
+//                        ->defaultValue('oauth2_server.grant.access_token.id_generator')
                         ->isRequired()
                     ->end()
                     ->scalarNode('lifetime')

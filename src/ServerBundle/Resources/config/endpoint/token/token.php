@@ -25,13 +25,13 @@ return function (ContainerConfigurator $container) {
 
     $container->set('token_endpoint_pipe')
         ->class(Middleware\Pipe::class)
-        ->args([[
+        ->args([
             ref(Middleware\OAuth2ResponseMiddleware::class),
             ref(ClientAuthenticationMiddleware::class),
             ref(TokenEndpoint\GrantTypeMiddleware::class),
             ref(TokenTypeMiddleware::class),
             ref(TokenEndpoint\TokenEndpoint::class),
-        ]])
+        ])
         ->tag('controller.service_arguments');
 
     $container->set(TokenEndpoint\GrantTypeMiddleware::class)
@@ -47,8 +47,8 @@ return function (ContainerConfigurator $container) {
             ref('oauth2_server.user_account_repository'),
             ref(TokenEndpoint\Extension\TokenEndpointExtensionManager::class),
             ref('httplug.message_factory'),
-            ref('oauth2_server.access_token_repository'),
-            ref('oauth2_server.access_token_id_generator'),
-            '%oauth2_server.access_token_lifetime%',
+            '%oauth2_server.grant.access_token.repository%',
+            '%oauth2_server.grant.access_token.id_generator%',
+            '%oauth2_server.grant.access_token.lifetime%',
         ]);
 };

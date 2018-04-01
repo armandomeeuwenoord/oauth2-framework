@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace OAuth2Framework\ServerBundle;
 
+use OAuth2Framework\ServerBundle\Security\Factory\OAuth2SecurityFactory;
 use OAuth2Framework\ServerBundle\DependencyInjection\OAuth2FrameworkExtension;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\SecurityExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -68,8 +69,8 @@ class OAuth2FrameworkServerBundle extends Bundle
         }
 
         /* @var SecurityExtension $extension */
-        //$extension = $container->getExtension('security');
-        //$extension->addSecurityListenerFactory(new OAuth2SecurityFactory());
+        $extension = $container->getExtension('security');
+        $extension->addSecurityListenerFactory(new OAuth2SecurityFactory());
     }
 
     /**
@@ -94,7 +95,7 @@ class OAuth2FrameworkServerBundle extends Bundle
             new Component\Grant\GrantSource(),
             new Component\OpenIdConnect\OpenIdConnectSource(),
 
-//            new Component\FirewallSource(),
+            new Component\Firewall\FirewallSource(),
 //            new Component\HttpSource(),
             new Component\KeySet(),
         ];

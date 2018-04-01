@@ -31,6 +31,10 @@ class CreateAccessTokenCommandHandler
     public function __construct(AccessTokenRepository $accessTokenRepository)
     {
         $this->accessTokenRepository = $accessTokenRepository;
+
+        var_dump($accessTokenRepository);
+        
+
     }
 
     /**

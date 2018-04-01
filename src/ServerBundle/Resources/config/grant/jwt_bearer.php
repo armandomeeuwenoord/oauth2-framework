@@ -28,6 +28,6 @@ return function (ContainerConfigurator $container) {
             ref('jose.header_checker.oauth2_server.grant.jwt_bearer'),
             ref('jose.claim_checker.oauth2_server.grant.jwt_bearer'),
             ref('oauth2_server.client_repository'),
-            ref('oauth2_server.user_account_repository'),
+            ref('oauth2_server.user_account.repository'),
         ]);
 };

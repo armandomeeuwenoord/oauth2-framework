@@ -38,7 +38,7 @@ class RefreshTokenSource implements Component
             $container->setParameter('oauth2_server.grant.refresh_token.min_length', $configs['grant']['refresh_token']['min_length']);
             $container->setParameter('oauth2_server.grant.refresh_token.max_length', $configs['grant']['refresh_token']['max_length']);
             $container->setParameter('oauth2_server.grant.refresh_token.lifetime', $configs['grant']['refresh_token']['lifetime']);
-            $container->setAlias('oauth2_server.grant.refresh_token.repository', $configs['grant']['refresh_token']['repository']);
+            $container->setParameter('oauth2_server.grant.refresh_token.repository', $configs['grant']['refresh_token']['repository']);
             $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/grant'));
             $loader->load('refresh_token.php');
         }

@@ -40,7 +40,7 @@ class AuthorizationCodeSource implements Component
             $container->setParameter('oauth2_server.grant.authorization_code.max_length', $configs['grant']['authorization_code']['max_length']);
             $container->setParameter('oauth2_server.grant.authorization_code.lifetime', $configs['grant']['authorization_code']['lifetime']);
             $container->setParameter('oauth2_server.grant.authorization_code.enforce_pkce', $configs['grant']['authorization_code']['enforce_pkce']);
-            $container->setAlias('oauth2_server.grant.authorization_code.repository', $configs['grant']['authorization_code']['repository']);
+            $container->setParameter('oauth2_server.grant.authorization_code.repository', $configs['grant']['authorization_code']['repository']);
 
             $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/grant'));
             $loader->load('authorization_code.php');
@@ -109,14 +109,6 @@ class AuthorizationCodeSource implements Component
      */
     public function prepend(ContainerBuilder $container, array $config): array
     {
-        var_dump($config);
-
-        //Nothing to do
-        return [
-            'authorization_code' => [
-                'min_length' => 1000,
-                'max_length' => 1000
-            ]
-        ];
+        return [];
     }
 }

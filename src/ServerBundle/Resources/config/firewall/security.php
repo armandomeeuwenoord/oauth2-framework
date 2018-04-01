@@ -29,6 +29,7 @@ return function (ContainerConfigurator $container) {
         ->autowire();
 
     $container->set(OAuth2Provider::class)
+        ->class(OAuth2Provider::class)
         ->private();
 
     $container->set(OAuth2Listener::class)

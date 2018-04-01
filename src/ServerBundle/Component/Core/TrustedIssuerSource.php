@@ -35,14 +35,6 @@ class TrustedIssuerSource implements Component
         if (null === $configs['trusted_issuer']['repository']) {
             return;
         }
-
-        var_dump($configs['trusted_issuer']['repository']);
-
-        $container->setAlias('oauth2_server.trusted_issuer.repository', $configs['trusted_issuer']['repository']);
-
-
-
-        $container->setDefinition('oauth2_server.trusted_issuer.repository', $configs['trusted_issuer']['repository']);
     }
 
     /**

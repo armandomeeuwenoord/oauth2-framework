@@ -24,19 +24,18 @@ return function (ContainerConfigurator $container) {
 
     $container->set(Command\CreateAccessTokenCommandHandler::class)
         ->args([
-            ref('oauth2_server.access_token_repository'),
-            ref('oauth2_server.access_token_id_generator'),
+            ref('oauth2_server.grant.access_token.repository'),
         ]);
 
     $container->set(Command\RevokeAccessTokenCommandHandler::class)
         ->args([
-            ref('oauth2_server.access_token_repository'),
+            ref('oauth2_server.grant.access_token.repository'),
         ]);
 
     $container->set(AccessTokenHandlerManager::class);
 
     $container->set(AccessTokenTypeHint::class)
         ->args([
-            ref('oauth2_server.access_token_repository'),
+            ref('oauth2_server.grant.access_token.repository'),
         ]);
 };
