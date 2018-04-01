@@ -11,8 +11,9 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace OAuth2Framework\ServerBundle\Component;
+namespace OAuth2Framework\ServerBundle\Component\Firewall;
 
+use OAuth2Framework\ServerBundle\Component\Component;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -33,8 +34,8 @@ class FirewallSource implements Component
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        //$loader->load('security.php');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/firewall'));
+        $loader->load('security.php');
     }
 
     /**
@@ -42,6 +43,8 @@ class FirewallSource implements Component
      */
     public function build(ContainerBuilder $container)
     {
+        $container->addCompilerPass(new AccessTokenHandlerCompilerPass());
+        $container->addCompilerPass(new SecurityAnnotationCheckerCompilerPass());
     }
 
     /**

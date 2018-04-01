@@ -109,7 +109,14 @@ class AuthorizationCodeSource implements Component
      */
     public function prepend(ContainerBuilder $container, array $config): array
     {
+        var_dump($config);
+
         //Nothing to do
-        return [];
+        return [
+            'authorization_code' => [
+                'min_length' => 1000,
+                'max_length' => 1000
+            ]
+        ];
     }
 }

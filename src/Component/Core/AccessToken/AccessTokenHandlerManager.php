@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace OAuth2Framework\Component\Core\AccessToken;
 
+use OAuth2Framework\Component\Core\AccessToken\AccessToken;
+use OAuth2Framework\Component\Core\AccessToken\AccessTokenId;
+use OAuth2Framework\Component\Core\AccessToken\AccessTokenRepository as AccessTokenRepositoryInterface;
+
 class AccessTokenHandlerManager
 {
     /**

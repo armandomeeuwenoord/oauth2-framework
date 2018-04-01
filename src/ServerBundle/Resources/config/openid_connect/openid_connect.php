@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use OAuth2Framework\Component\OpenIdConnect\UserInfo\ClaimSource\ClaimSourceManager;
 use OAuth2Framework\Component\OpenIdConnect\UserInfo\UserInfo;
 use OAuth2Framework\Component\OpenIdConnect\Rule;
+use OAuth2Framework\Component\OpenIdConnect\IdTokenBuilderFactory;
 use OAuth2Framework\Component\OpenIdConnect\UserInfo\ScopeSupport\UserInfoScopeSupportManager;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
@@ -43,12 +44,12 @@ return function (ContainerConfigurator $container) {
 //        ])
 //        ->tag('oauth2_server_token_endpoint_extension');
 //
-//    $container->set(IdTokenBuilderFactory::class)
-//        ->args([
-//            '%oauth2_server.server_uri%',
-//            ref(UserInfo::class),
-//            '%oauth2_server.openid_connect.id_token.lifetime%',
-//        ]);
+    $container->set(IdTokenBuilderFactory::class)
+        ->args([
+            '%oauth2_server.server_uri%',
+            ref(UserInfo::class),
+            '%oauth2_server.openid_connect.id_token.lifetime%',
+        ]);
 
     $container->set(Rule\IdTokenAlgorithmsRule::class)
         ->args([

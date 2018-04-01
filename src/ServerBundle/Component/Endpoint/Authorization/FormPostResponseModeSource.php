@@ -26,6 +26,7 @@ class FormPostResponseModeSource implements Component
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+
         $config = $configs['endpoint']['authorization']['response_mode']['form_post'];
         $container->setParameter('oauth2_server.endpoint.authorization.response_mode.form_post.enabled', $config['enabled']);
         if (!$config['enabled']) {

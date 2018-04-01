@@ -70,6 +70,8 @@ class ClientSource implements Component
      */
     public function prepend(ContainerBuilder $container, array $config): array
     {
+        $container->setParameter('oauth2_server.client.repository', "test");
+
         return [];
     }
 }

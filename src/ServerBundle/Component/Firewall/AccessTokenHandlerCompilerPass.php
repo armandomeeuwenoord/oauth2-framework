@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace OAuth2Framework\ServerBundle\DependencyInjection\Compiler;
+namespace OAuth2Framework\ServerBundle\Component\Firewall;
 
 use OAuth2Framework\Component\Core\AccessToken\AccessTokenHandlerManager;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

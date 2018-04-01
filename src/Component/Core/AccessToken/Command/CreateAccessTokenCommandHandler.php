@@ -52,6 +52,7 @@ class CreateAccessTokenCommandHandler
             $command->getExpiresAt(),
             $command->getResourceServerId()
         );
+
         $this->accessTokenRepository->save($accessToken);
     }
 }

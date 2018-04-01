@@ -12,8 +12,21 @@ declare(strict_types=1);
  */
 
 use OAuth2Framework\Component\Security;
-use function Fluent\create;
+use OAuth2Framework\Component\Core\AccessToken\AccessTokenHandlerManager;
+use OnlineVoicemail\Api\RestBundle\Service\AccessTokenHandler;
 
-return [
-    Security\AccessTokenHandlerManager::class => create(),
-];
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+
+return function (ContainerConfigurator $container) {
+    $container = $container->services()->defaults()
+        ->private()
+        ->autoconfigure()
+        ->autowire();
+
+    $container->set(AccessTokenHandlerManager::class)
+        ->args([
+            ref(AccessTokenHandler::class),
+        ]);
+
+};
