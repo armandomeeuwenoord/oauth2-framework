@@ -44,7 +44,7 @@ class ResourceServerSource implements Component
         if (null === $configs['resource_server']['repository']) {
             return;
         }
-        $container->setAlias('oauth2_server.resource_server_repository', $configs['resource_server']['repository']);
+        $container->setParameter('oauth2_server.resource_server_repository', $configs['resource_server']['repository']);
         $loader->load('authentication_middleware.php');
     }
 
