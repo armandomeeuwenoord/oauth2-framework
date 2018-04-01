@@ -25,7 +25,7 @@ return function (ContainerConfigurator $container) {
         ->args([
             ref(IdTokenBuilderFactory::class),
             '%oauth2_server.openid_connect.id_token.default_signature_algorithm%',
-            ref('jose.jws_builder.id_token'),
+//            ref('jose.jws_builder.id_token'),
             ref('jose.key_set.oauth2_server.key_set.signature'),
             ref('jose.encrypter.id_token')->nullOnInvalid(),
         ]);

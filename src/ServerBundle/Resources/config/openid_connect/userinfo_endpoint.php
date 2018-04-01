@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use OAuth2Framework\Component\Model\Client\Rule\UserinfoEndpointAlgorithmsRule;
+use OAuth2Framework\Component\ClientRule\UserinfoEndpointAlgorithmsRule;
 use OAuth2Framework\ServerBundle\Model\ClientRepository;
 use OAuth2Framework\Component\Endpoint\UserInfo\UserInfoEndpoint;
 use OAuth2Framework\Component\Middleware\OAuth2ResponseMiddleware;
@@ -51,8 +51,8 @@ return [
 
     UserinfoEndpointAlgorithmsRule::class => create()
         ->arguments(
-            get('jose.jws_builder.id_token')->nullIfMissing(),
-            get('jose.jwe_builder.id_token')->nullIfMissing()
+//            get('jose.jws_builder.id_token')->nullIfMissing(),
+//            get('jose.jwe_builder.id_token')->nullIfMissing()
         )
         ->tag('oauth2_server_client_rule'),
 ];
