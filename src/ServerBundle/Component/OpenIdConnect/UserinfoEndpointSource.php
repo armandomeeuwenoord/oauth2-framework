@@ -52,7 +52,7 @@ class UserinfoEndpointSource implements Component
         }
 
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/openid_connect'));
-        //$loader->load('userinfo_endpoint.php');
+        $loader->load('userinfo_endpoint.php');
 
         foreach ($this->subComponents as $subComponent) {
             $subComponent->load($configs, $container);

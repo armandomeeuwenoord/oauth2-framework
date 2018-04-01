@@ -28,6 +28,7 @@ class OpenIdConnectSource implements Component
 
     public function __construct()
     {
+
         $this->subComponents = [
             new PairwiseSubjectSource(),
             new IdTokenSource(),
@@ -53,8 +54,9 @@ class OpenIdConnectSource implements Component
             return;
         }
 
+
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/openid_connect'));
-        //$loader->load('openid_connect.php');
+        $loader->load('openid_connect.php');
 
         foreach ($this->subComponents as $subComponent) {
             $subComponent->load($configs, $container);

@@ -94,9 +94,9 @@ class OAuth2FrameworkServerBundle extends Bundle
             new Component\Grant\GrantSource(),
             new Component\OpenIdConnect\OpenIdConnectSource(),
 
-            /*new Component\FirewallSource(),
-            new Component\HttpSource(),
-            new Component\KeySet(),*/
+//            new Component\FirewallSource(),
+//            new Component\HttpSource(),
+            new Component\KeySet(),
         ];
     }
 }

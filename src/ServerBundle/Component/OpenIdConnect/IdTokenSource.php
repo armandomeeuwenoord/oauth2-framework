@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace OAuth2Framework\ServerBundle\Component\OpenIdConnect;
 
 use OAuth2Framework\ServerBundle\Component\Component;
+use Jose\Bundle\JoseFramework\Helper\ConfigurationHelper;
+use OAuth2Framework\ServerBundle\Component\OpenIdConnect\Compiler\ClaimSourceCompilerPass;
+use OAuth2Framework\ServerBundle\Component\OpenIdConnect\Compiler\IdTokenMetadataCompilerPass;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -32,6 +35,18 @@ class IdTokenSource implements Component
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $config = $configs['openid_connect']['id_token'];
+        $container->setParameter('oauth2_server.openid_connect.id_token.enabled', $config['enabled']);
+        if (!$config['enabled']) {
+            return;
+        }
+
+        $container->setParameter('oauth2_server.openid_connect.id_token.default_signature_algorithm', $config['default_signature_algorithm']);
+        $container->setParameter('oauth2_server.openid_connect.id_token.signature_algorithmsy', $config['signature_algorithms']);
+        $container->setParameter('oauth2_server.openid_connect.id_token.lifetime', $config['lifetime']);
+        $container->setParameter('oauth2_server.openid_connect.id_token.encryption.enabled', $config['encryption']['enabled']);
+        $container->setParameter('oauth2_server.openid_connect.id_token.encryption.key_encryption_algorithms', $config['encryption']['key_encryption_algorithms']);
+        $container->setParameter('oauth2_server.openid_connect.id_token.encryption.content_encryption_algorithms', $config['encryption']['content_encryption_algorithms']);
     }
 
     /**
@@ -41,6 +56,7 @@ class IdTokenSource implements Component
     {
         $node->children()
             ->arrayNode($this->name())
+                ->canBeEnabled()
                 ->addDefaultsIfNotSet()
                 ->validate()
                     ->ifTrue(function ($config) {
@@ -117,24 +133,26 @@ class IdTokenSource implements Component
      */
     public function build(ContainerBuilder $container)
     {
-        //Nothing to do
+        $container->addCompilerPass(new ClaimSourceCompilerPass());
+        $container->addCompilerPass(new IdTokenMetadataCompilerPass());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function prepend(ContainerBuilder $container, array $config): array
+    public function prepend(ContainerBuilder $container, array $bundleConfig): array
     {
-        /*
-        $currentPath = $path.'['.$this->name().']';
-        $accessor = PropertyAccess::createPropertyAccessor();
-        $sourceConfig = $accessor->getValue($bundleConfig, $currentPath);
-        ConfigurationHelper::addJWSBuilder($container, $this->name(), $sourceConfig['signature_algorithms'], false);
-        ConfigurationHelper::addJWSLoader($container, $this->name(), $sourceConfig['signature_algorithms'], [], ['jws_compact'], false);
+        $config = $bundleConfig['openid_connect']['id_token'];
+        if (!$config['enabled']) {
+            return [];
+        }
 
-        Assertion::keyExists($bundleConfig['key_set'], 'signature', 'The signature key set must be enabled.');
-        //ConfigurationHelper::addKeyset($container, 'id_token.key_set.signature', 'jwkset', ['value' => $bundleConfig['key_set']['signature']]);
-         */
+//        ConfigurationHelper::addJWSBuilder($container, $this->name(), $config['signature_algorithms'], false);
+//        ConfigurationHelper::addJWSLoader($container, $this->name(), $config['signature_algorithms'], [], ['jws_compact'], false);
+
+//        Assertion::keyExists($bundleConfig['key_set'], 'signature', 'The signature key set must be enabled.');
+//        ConfigurationHelper::addKeyset($container, 'id_token.key_set.signature', 'jwkset', ['value' => $bundleConfig['key_set']['signature']]);
+
         return [];
     }
 }

@@ -33,22 +33,22 @@ return function (ContainerConfigurator $container) {
             ref(ClaimSourceManager::class),
         ]);
 
-    $container->set(OpenIdConnectExtension::class)
-        ->args([
-            ref(IdTokenBuilderFactory::class),
-            '%oauth2_server.openid_connect.id_token.default_signature_algorithm%',
-            ref('jose.jws_builder.id_token'),
-            ref('jose.key_set.oauth2_server.key_set.signature'),
-            ref('jose.jwe_builder.id_token')->nullOnInvalid(),
-        ])
-        ->tag('oauth2_server_token_endpoint_extension');
-
-    $container->set(IdTokenBuilderFactory::class)
-        ->args([
-            '%oauth2_server.server_uri%',
-            ref(UserInfo::class),
-            '%oauth2_server.openid_connect.id_token.lifetime%',
-        ]);
+//    $container->set(OpenIdConnectExtension::class)
+//        ->args([
+//            ref(IdTokenBuilderFactory::class),
+//            '%oauth2_server.openid_connect.id_token.default_signature_algorithm%',
+//            ref('jose.jws_builder.id_token'),
+//            ref('jose.key_set.oauth2_server.key_set.signature'),
+//            ref('jose.jwe_builder.id_token')->nullOnInvalid(),
+//        ])
+//        ->tag('oauth2_server_token_endpoint_extension');
+//
+//    $container->set(IdTokenBuilderFactory::class)
+//        ->args([
+//            '%oauth2_server.server_uri%',
+//            ref(UserInfo::class),
+//            '%oauth2_server.openid_connect.id_token.lifetime%',
+//        ]);
 
     $container->set(Rule\IdTokenAlgorithmsRule::class)
         ->args([

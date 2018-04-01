@@ -30,14 +30,25 @@ class KeySet implements Component
     /**
      * {@inheritdoc}
      */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getNodeDefinition(ArrayNodeDefinition $node, ArrayNodeDefinition $rootNode)
     {
-        $node
-            ->addDefaultsIfNotSet()
-            ->children()
-                ->scalarNode('signature')->defaultNull()->end()
-                ->scalarNode('encryption')->defaultNull()->end()
-            ->end();
+        $node->children()
+            ->arrayNode($this->name())
+                ->canBeEnabled()
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->scalarNode('signature')->defaultNull()->end()
+                    ->scalarNode('encryption')->defaultNull()->end()
+                ->end()
+            ->end()
+        ->end();
     }
 
     /**
