@@ -57,18 +57,20 @@ services:
             - '@oauth2_server.openid_connect.user_info_claim_source_manager'
 
     oauth2_server.openid_connect.user_info_endpoint:
-        class: OAuth2Framework\Component\Endpoint\UserInfo\UserInfoEndpoint
+        class: OAuth2Framework\Component\OpenIdConnect\UserInfoEndpoint\UserInfoEndpoint
         arguments:
             - '@oauth2_server.openid_connect.id_token_builder_factory'
             - '@oauth2_server.client.repository'
+            - '@oauth2_server.user_account.repository'
             - '@httplug.message_factory'
 
     oauth2_server.openid_connect.user_info_security_middleware:
         class: OAuth2Framework\Component\Middleware\OAuth2SecurityMiddleware
         arguments:
-            - '@oauth2_server.openid_connect.id_token_builder_factory'
-            - '@oauth2_server.client.repository'
-            - '@httplug.message_factory'
+            - '@oauth2_server.security_token_type_manager'
+            - '@oauth2_server.access_token_handler_manager'
+            - 'openid'
+            - []
 
     oauth2_server.openid_connect.user_info_endpoint_algorithms_rule:
         class: OAuth2Framework\Component\ClientRule\UserinfoEndpointAlgorithmsRule

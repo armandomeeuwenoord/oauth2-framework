@@ -13,16 +13,18 @@ declare(strict_types=1);
 
 namespace OAuth2Framework\Component\Middleware;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Message\ResponseInterface;
+//use OAuth2Framework\Component\Middleware\RequestHandlerInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 final class FormPostBodyParserMiddleware implements MiddlewareInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $headers = $request->getHeader('content-type');
         foreach ($headers as $header) {
@@ -35,6 +37,6 @@ final class FormPostBodyParserMiddleware implements MiddlewareInterface
             }
         }
 
-        return $delegate->process($request);
+        return $handler->handle($request);
     }
 }

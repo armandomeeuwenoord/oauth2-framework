@@ -1,6 +1,6 @@
 services:
     oauth2_server.middleware.form_post_body:
-        class: OAuth2Framework\Component\Middlewar
+        class: OAuth2Framework\Component\Middleware\FormPostBodyParserMiddleware
 
     oauth2_server.pkce_method.plain:
         class: OAuth2Framework\Component\AuthorizationCodeGrant\PKCEMethod\Plain
@@ -50,10 +50,7 @@ services:
     oauth2_server.user_info_endpoint_pipe:
         class: OAuth2Framework\Component\Middleware\Pipe
         arguments:
-            - '@oauth2_server.oauth2_response_middleware'
-            - '@oauth2_server.middleware.form_post_body'
-            - '@oauth2_server.openid_connect.user_info_security_middleware'
-            - '@oauth2_server.openid_connect.user_info_endpoint'
+            - ['@oauth2_server.oauth2_response_middleware', '@oauth2_server.middleware.form_post_body', '@oauth2_server.openid_connect.user_info_security_middleware','@oauth2_server.openid_connect.user_info_endpoint']
         tags:
             - { name: controller.service_arguments }
 
@@ -137,6 +134,7 @@ services:
         class: OAuth2Framework\ServerBundle\Security\EntryPoint\OAuth2EntryPoint
         arguments:
             - '@httplug.message_factory'
+            - '@oauth2_server.oauth2_response_factory.authenticate'
 
     oauth2_server.security_annotation_driver:
         class: OAuth2Framework\ServerBundle\Annotation\AnnotationDriver

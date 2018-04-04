@@ -126,6 +126,6 @@ class OAuth2SecurityMiddleware implements MiddlewareInterface
             $data['scope'] = implode(' ', $this->scope);
         }
 
-        return new OAuth2Exception($code, $error, $errorDescription, $data);
+        return new OAuth2Exception($code, $error, $errorDescription, null, $data);
     }
 }

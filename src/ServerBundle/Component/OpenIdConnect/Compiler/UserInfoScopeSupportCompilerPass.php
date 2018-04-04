@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace OAuth2Framework\ServerBundle\DependencyInjection\Compiler;
+namespace OAuth2Framework\ServerBundle\Component\OpenIdConnect\Compiler;
 
 use OAuth2Framework\Component\OpenIdConnect\UserInfo\ScopeSupport\UserInfoScopeSupportManager;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -25,11 +25,11 @@ class UserInfoScopeSupportCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(UserInfoScopeSupportManager::class)) {
+        if (!$container->hasDefinition('oauth2_server.openid_connect.user_info_scope_support_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition(UserInfoScopeSupportManager::class);
+        $definition = $container->getDefinition('oauth2_server.openid_connect.user_info_scope_support_manager');
 
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_userinfo_scope_support');
         foreach ($taggedServices as $id => $attributes) {

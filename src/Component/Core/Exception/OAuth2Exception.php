@@ -67,6 +67,11 @@ class OAuth2Exception extends \Exception
     public const ERROR_INVALID_RESOURCE_SERVER = 'invalid_resource_server';
 
     /**
+     * @var array
+     */
+    private $data = [];
+
+    /**
      * @var null|string
      */
     private $errorDescription;
@@ -79,8 +84,9 @@ class OAuth2Exception extends \Exception
      * @param null|string     $errorDescription
      * @param \Exception|null $previous
      */
-    public function __construct(int $code, string $error, ?string $errorDescription, ? \Exception $previous = null)
+    public function __construct(int $code, string $error, ?string $errorDescription, ? \Exception $previous = null, array $data = [])
     {
+        $this->data = $data;
         $this->errorDescription = $errorDescription;
         parent::__construct($error, $code, $previous);
     }

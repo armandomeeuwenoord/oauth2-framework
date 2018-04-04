@@ -24,7 +24,7 @@ class MetadataRouteCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('metadata_endpoint_pipe')) {
+        if (!$container->hasDefinition('oauth2_server.metadata_endpoint_pipe')) {
             return;
         }
 
@@ -32,8 +32,8 @@ class MetadataRouteCompilerPass implements CompilerPassInterface
         $host = $container->getParameter('oauth2_server.endpoint.metadata.host');
         $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
-            'metadata_endpoint',
-            'metadata_endpoint_pipe',
+            'oauth2_server.metadata_endpoint',
+            'oauth2_server.metadata_endpoint_pipe',
             'dispatch',
             $path, // path
             [], // defaults

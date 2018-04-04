@@ -25,7 +25,7 @@ class UserinfoRouteCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('oauth2_server_userinfo_pipe')) {
+        if (!$container->hasDefinition('oauth2_server.user_info_endpoint_pipe')) {
             return;
         }
 
@@ -33,7 +33,7 @@ class UserinfoRouteCompilerPass implements CompilerPassInterface
         $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
             'openid_connect_userinfo_endpoint',
-            'oauth2_server_userinfo_pipe',
+            'oauth2_server.user_info_endpoint_pipe',
             'dispatch',
             $path, // path
             [], // defaults

@@ -18,6 +18,8 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use OAuth2Framework\ServerBundle\Component\OpenIdConnect\Compiler\UserinfoRouteCompilerPass;
+use OAuth2Framework\ServerBundle\Component\OpenIdConnect\Compiler\UserInfoScopeSupportCompilerPass;
 
 class UserinfoEndpointSource implements Component
 {
@@ -50,6 +52,8 @@ class UserinfoEndpointSource implements Component
 //        if (!$configs['openid_connect']['userinfo_endpoint']['enabled']) {
 //            return;
 //        }
+
+        $container->setParameter('oauth2_server.openid_connect.userinfo_endpoint.path', $configs['openid_connect']['userinfo_endpoint']['path']);
 
         foreach ($this->subComponents as $subComponent) {
             $subComponent->load($configs, $container);
@@ -97,6 +101,10 @@ class UserinfoEndpointSource implements Component
      */
     public function build(ContainerBuilder $container)
     {
+
+        $container->addCompilerPass(new UserinfoRouteCompilerPass());
+        $container->addCompilerPass(new UserInfoScopeSupportCompilerPass());
+
         foreach ($this->subComponents as $component) {
             $component->build($container);
         }

@@ -30,14 +30,14 @@ class UserInfoPairwiseSubjectCompilerPass implements CompilerPassInterface
             return;
         }
 
-        $definition = $container->getDefinition(UserInfo::class);
+        $definition = $container->getDefinition('oauth2_server.openid_connect.user_info');
         $service = $container->getAlias('oauth2_server.openid_connect.pairwise_subject.service');
         $isDefault = $container->getParameter('oauth2_server.openid_connect.pairwise_subject.is_default');
         $definition->addMethodCall('enablePairwiseSubject', [new Reference($service), $isDefault]);
 
         // Enabled the pairwise support for the Id Token Hint Discovery service if available
-        if ($container->hasDefinition(IdTokenHintDiscovery::class)) {
-            $definition = $container->getDefinition(IdTokenHintDiscovery::class);
+        if ($container->hasDefinition('oauth2_server.openid_connect.id_token_hint_discovery')) {
+            $definition = $container->getDefinition('oauth2_server.openid_connect.id_token_hint_discovery');
             $definition->addMethodCall('enablePairwiseSubject', [new Reference($service)]);
         }
     }

@@ -25,11 +25,11 @@ class AccessTokenHandlerCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(AccessTokenHandlerManager::class)) {
+        if (!$container->hasDefinition('oauth2_server.access_token_handler')) {
             return;
         }
 
-        $definition = $container->getDefinition(AccessTokenHandlerManager::class);
+        $definition = $container->getDefinition('oauth2_server.access_token_handler');
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_access_token_handler');
         foreach ($taggedServices as $id => $attributes) {
             $definition->addMethodCall('add', [new Reference($id)]);
