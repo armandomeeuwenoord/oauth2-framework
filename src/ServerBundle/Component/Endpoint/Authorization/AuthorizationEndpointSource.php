@@ -66,12 +66,6 @@ class AuthorizationEndpointSource implements Component
     {
         $config = $configs['endpoint']['authorization'];
         $container->setParameter('oauth2_server.endpoint.authorization.enabled', $config['enabled']);
-//        var_dump($config['enabled']);
-//        if (!$config['enabled']) {
-//            return;
-//        }
-
-
         $container->registerForAutoconfiguration(ResponseType::class)->addTag('oauth2_server_response_type');
         $container->registerForAutoconfiguration(ResponseMode::class)->addTag('oauth2_server_response_mode');
         $container->registerForAutoconfiguration(ParameterChecker::class)->addTag('oauth2_server_authorization_parameter_checker');

@@ -91,7 +91,6 @@ class OAuth2Listener implements ListenerInterface
                 return;
             }
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
             return;
         }
 

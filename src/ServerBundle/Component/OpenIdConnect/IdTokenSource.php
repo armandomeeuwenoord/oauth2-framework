@@ -147,8 +147,6 @@ class IdTokenSource implements Component
             return [];
         }
 
-        var_dump($config['signature_algorithms']);
-
         ConfigurationHelper::addJWSBuilder($container, $this->name(), $config['signature_algorithms'], true);
         ConfigurationHelper::addJWSLoader($container, $this->name(), ['jws_compact'], $config['signature_algorithms'], [], true);
 
