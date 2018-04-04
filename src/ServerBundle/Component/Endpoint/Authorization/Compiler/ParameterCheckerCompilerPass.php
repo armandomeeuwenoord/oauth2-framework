@@ -33,7 +33,6 @@ class ParameterCheckerCompilerPass implements CompilerPassInterface
 
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_authorization_parameter_checker');
         foreach ($taggedServices as $id => $attributes) {
-            var_dump($id);
             $definition->addMethodCall('add', [new Reference($id)]);
         }
     }

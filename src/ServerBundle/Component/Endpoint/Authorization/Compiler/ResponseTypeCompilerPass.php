@@ -34,7 +34,6 @@ class ResponseTypeCompilerPass implements CompilerPassInterface
 
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_response_type');
         foreach ($taggedServices as $id => $attributes) {
-            var_dump($id);
             $definition->addMethodCall('add', [new Reference($id)]);
         }
 

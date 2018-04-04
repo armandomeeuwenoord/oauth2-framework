@@ -126,7 +126,6 @@ abstract class AuthorizationEndpoint implements MiddlewareInterface
                 var_dump($e->getMessage());
                 $this->throwRedirectionException($authorization, $e->getData()['error'], $e->getData()['error_description']);
             } catch (\Exception $e) {
-                var_dump($e->getMessage());
             }
 
 

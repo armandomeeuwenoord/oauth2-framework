@@ -102,9 +102,6 @@ class AnnotationDriver
 
         foreach (array_merge($classConfigurations, $methodConfigurations) as $configuration) {
 
-
-            var_dump($configuration);
-
             if ($configuration instanceof OAuth2) {
                 $token = $this->tokenStorage->getToken();
 
