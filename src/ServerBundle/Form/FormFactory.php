@@ -72,8 +72,6 @@ class FormFactory
     {
         $options = ['validation_groups' => $this->validationGroups, 'translator' => $this->translator] + $options;
 
-        var_dump($this->type);
-
         $form = $this->formFactory->createNamed($this->name, $this->type, null, $options);
         if (null !== $data) {
             $form->setData($data);

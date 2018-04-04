@@ -91,7 +91,6 @@ abstract class AuthorizationEndpoint implements MiddlewareInterface
 //            var_dump($e->getMessage());
             $data = $e->getData();
 
-            var_dump('ik ben hier');
             var_dump($data);
 
             if (null !== $e->getAuthorization()) {
@@ -115,7 +114,6 @@ abstract class AuthorizationEndpoint implements MiddlewareInterface
             $authorization = $this->consentScreenExtensionManager->processAfter($request, $authorization);
 
             if (false === $authorization->isAuthorized()) {
-                var_dump('asdasd2222');
                 $this->throwRedirectionException($authorization, OAuth2Exception::ERROR_ACCESS_DENIED, 'The resource owner denied access to your client.');
             }
 
@@ -153,9 +151,6 @@ abstract class AuthorizationEndpoint implements MiddlewareInterface
      */
     private function buildResponse(Authorization $authorization): ResponseInterface
     {
-        var_dump($authorization->getResponseMode() );
-        var_dump($authorization->getRedirectUri());
-
         if (null === $authorization->getResponseMode() || null === $authorization->getRedirectUri()) {
             throw new OAuth2Exception(400, 'EEE', 'FFF', null, ['error' => 'EEE', 'error_description' => 'FFF']);
         }
@@ -182,7 +177,6 @@ abstract class AuthorizationEndpoint implements MiddlewareInterface
     private function throwRedirectionException(Authorization $authorization, string $error, string $error_description)
     {
         $params = $authorization->getResponseParameters();
-        var_dump($authorization->getResponseMode());
         if (null === $authorization->getResponseMode() || null === $authorization->getRedirectUri()) {
             throw new OAuth2Exception(400, $error, $error_description, $params);
         }

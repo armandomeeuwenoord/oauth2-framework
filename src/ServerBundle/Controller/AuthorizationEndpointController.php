@@ -167,7 +167,6 @@ class AuthorizationEndpointController extends AuthorizationEndpoint
         if ('POST' === $request->getMethod()) {
             $authorization = $this->formHandler->handle($form, $request, $authorization, $authorization_model);
 
-            var_dump($form->getData());
             var_dump($authorization->getRedirectUri());
 
             if (is_bool($authorization->isAuthorized())) {

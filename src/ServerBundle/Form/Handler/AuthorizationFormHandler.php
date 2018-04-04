@@ -57,15 +57,10 @@ class AuthorizationFormHandler
             throw new InvalidArgumentException('Unable to find the button named "accept".');
         }
 
-
-        var_dump('asdsad');
-
         if (true === $button->isClicked()) {
             $authorization = $authorization->allow();
-            var_dump('allow');
         } else {
             $authorization = $authorization->deny();
-            var_dump('deny');
         }
         /*$refused_scopes = array_diff(
             $authorization->getScopes(),
