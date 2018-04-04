@@ -50,6 +50,6 @@ class AuthorizationEndpointRouteCompilerPass implements CompilerPassInterface
             return;
         }
         $definition = $container->getDefinition('oauth2_server.metadata_builder');
-        $definition->addMethodCall('addRoute', ['authorization_endpoint', 'oauth2_server_authorization_endpoint']);
+        $definition->addMethodCall('addRoute', ['oauth2_server.endpoint.authorization_endpoint', 'oauth2_server_authorization_endpoint']);
     }
 }
