@@ -36,8 +36,8 @@ class UserinfoEndpointSignatureCompilerPass implements CompilerPassInterface
             new Reference('jose.key_set.oauth2_server.key_set.signature'),
         ]);
 
-        if ($container->hasDefinition(MetadataBuilder::class)) {
-            $definition = $container->getDefinition(MetadataBuilder::class);
+        if ($container->hasDefinition('oauth2_server.metadata_builder')) {
+            $definition = $container->getDefinition('oauth2_server.metadata_builder');
             $definition->addMethodCall('addKeyValuePair', ['userinfo_signing_alg_values_supported', $container->getParameter('oauth2_server.openid_connect.id_token.signature_algorithms')]);
         }
     }

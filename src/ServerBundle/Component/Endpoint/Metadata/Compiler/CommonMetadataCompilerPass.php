@@ -24,11 +24,11 @@ class CommonMetadataCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(MetadataBuilder::class)) {
+        if (!$container->hasDefinition('oauth2_server.metadata_builder')) {
             return;
         }
 
-        $metadata = $container->getDefinition(MetadataBuilder::class);
+        $metadata = $container->getDefinition('oauth2_server.metadata_builder');
         $issuer = $container->getParameter('oauth2_server.server_uri');
         $metadata->addMethodCall('addKeyValuePair', ['issuer', $issuer]);
     }

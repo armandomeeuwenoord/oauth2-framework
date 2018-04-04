@@ -37,8 +37,8 @@ class GrantTypeCompilerPass implements CompilerPassInterface
             $definition->addMethodCall('add', [new Reference($id)]);
         }
 
-        if ($container->hasDefinition(MetadataBuilder::class)) {
-            $metadata = $container->getDefinition(MetadataBuilder::class);
+        if ($container->hasDefinition('oauth2_server.metadata_builder')) {
+            $metadata = $container->getDefinition('oauth2_server.metadata_builder');
             $metadata->addMethodCall('setGrantTypeManager', [new Reference(GrantTypeManager::class)]);
         }
     }

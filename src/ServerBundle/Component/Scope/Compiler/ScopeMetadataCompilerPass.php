@@ -25,10 +25,10 @@ class ScopeMetadataCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(MetadataBuilder::class) || !$container->hasAlias('oauth2_server.scope.repository')) {
+        if (!$container->hasDefinition('oauth2_server.metadata_builder') || !$container->hasAlias('oauth2_server.scope.repository')) {
             return;
         }
-        $metadata = $container->getDefinition(MetadataBuilder::class);
+        $metadata = $container->getDefinition('oauth2_server.metadata_builder');
         $metadata->addMethodCall('setScopeRepository', [new Reference('oauth2_server.scope.repository')]);
     }
 }

@@ -24,11 +24,11 @@ class CustomRoutesCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(MetadataBuilder::class)) {
+        if (!$container->hasDefinition('oauth2_server.metadata_builder')) {
             return;
         }
 
-        $definition = $container->getDefinition(MetadataBuilder::class);
+        $definition = $container->getDefinition('oauth2_server.metadata_builder');
         $customRoutes = $container->getParameter('oauth2_server.endpoint.metadata.custom_routes');
         foreach ($customRoutes as $key => $parameters) {
             $definition->addMethodCall('addRoute', [$key, $parameters['route_name'], $parameters['route_parameters']]);

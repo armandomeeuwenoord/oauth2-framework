@@ -33,8 +33,8 @@ class UserinfoEndpointEncryptionCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition(UserInfoEndpoint::class);
         $definition->addMethodCall('enableEncryption', [new Reference('jose.jwe_builder.oauth2_server.userinfo')]);
 
-        if ($container->hasDefinition(MetadataBuilder::class)) {
-            $definition = $container->getDefinition(MetadataBuilder::class);
+        if ($container->hasDefinition('oauth2_server.metadata_builder')) {
+            $definition = $container->getDefinition('oauth2_server.metadata_builder');
             $definition->addMethodCall('addKeyValuePair', ['userinfo_encryption_alg_values_supported', $container->getParameter('oauth2_server.openid_connect.userinfo_endpoint.encryption.key_encryption_algorithms')]);
             $definition->addMethodCall('addKeyValuePair', ['userinfo_encryption_enc_values_supported', $container->getParameter('oauth2_server.openid_connect.userinfo_endpoint.encryption.content_encryption_algorithms')]);
         }

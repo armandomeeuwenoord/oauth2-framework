@@ -37,11 +37,11 @@ class ClientAuthenticationMethodCompilerPass implements CompilerPassInterface
             $definition->addMethodCall('add', [new Reference($id)]);
         }
 
-        if (!$container->hasDefinition(MetadataBuilder::class)) {
+        if (!$container->hasDefinition('oauth2_server.metadata_builder')) {
             return;
         }
 
-        $metadata = $container->getDefinition(MetadataBuilder::class);
+        $metadata = $container->getDefinition('oauth2_server.metadata_builder');
         $metadata->addMethodCall('setTokenEndpointAuthMethodManager', [new Reference(AuthenticationMethodManager::class)]);
     }
 }

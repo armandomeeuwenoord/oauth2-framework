@@ -24,12 +24,12 @@ class JwksUriEndpointRouteCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(MetadataBuilder::class) || !$container->has('jose.key_set.oauth2_server.endpoint.jwks_uri')) {
+        if (!$container->hasDefinition('oauth2_server.metadata_builder') || !$container->has('jose.key_set.oauth2_server.endpoint.jwks_uri')) {
             return;
         }
 
         $routeName = 'jwkset_jose.controller.oauth2_server.endpoint.jwks_uri';
-        $definition = $container->getDefinition(MetadataBuilder::class);
+        $definition = $container->getDefinition('oauth2_server.metadata_builder');
         $definition->addMethodCall('addRoute', ['jwks_uri', $routeName]);
     }
 }

@@ -24,11 +24,11 @@ class CustomValuesCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(MetadataBuilder::class)) {
+        if (!$container->hasDefinition('oauth2_server.metadata_builder')) {
             return;
         }
 
-        $definition = $container->getDefinition(MetadataBuilder::class);
+        $definition = $container->getDefinition('oauth2_server.metadata_builder');
         $customValues = $container->getParameter('oauth2_server.endpoint.metadata.custom_values');
         foreach ($customValues as $key => $parameters) {
             $definition->addMethodCall('addKeyValuePair', [$key, $parameters]);

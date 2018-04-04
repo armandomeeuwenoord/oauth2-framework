@@ -26,10 +26,10 @@ class ClientJwtAssertionMetadataCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(MetadataBuilder::class)) {
+        if (!$container->hasDefinition('oauth2_server.metadata_builder')) {
             return;
         }
-        $metadata = $container->getDefinition(MetadataBuilder::class);
+        $metadata = $container->getDefinition('oauth2_server.metadata_builder');
 
         if ($container->hasDefinition(ClientAssertionJwt::class)) {
             $metadata->addMethodCall('setClientAssertionJwt', [new Reference(ClientAssertionJwt::class)]);
