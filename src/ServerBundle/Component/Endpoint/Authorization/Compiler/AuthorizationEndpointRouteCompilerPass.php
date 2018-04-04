@@ -33,7 +33,7 @@ class AuthorizationEndpointRouteCompilerPass implements CompilerPassInterface
         $host = $container->getParameter('oauth2_server.endpoint.authorization.host');
         $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
-            'oauth2_server.endpoint.authorization_endpoint',
+            'authorization_endpoint',
             'oauth2_server.endpoint.authorization_endpoint_pipe',
             'dispatch',
             $path, // path
@@ -50,6 +50,6 @@ class AuthorizationEndpointRouteCompilerPass implements CompilerPassInterface
             return;
         }
         $definition = $container->getDefinition('oauth2_server.metadata_builder');
-        $definition->addMethodCall('addRoute', ['oauth2_server.endpoint.authorization_endpoint', 'oauth2_server_authorization_endpoint']);
+        $definition->addMethodCall('addRoute', ['authorization_endpoint', 'oauth2_server_authorization_endpoint']);
     }
 }
