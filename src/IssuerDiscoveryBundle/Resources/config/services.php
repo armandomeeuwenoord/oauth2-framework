@@ -23,7 +23,7 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure();
 
     $container->set(RouteLoader::class)
-        ->tag('routing.loader');
+         ->tag('routing.loader');
 
     $container->set(IssuerDiscoveryFactory::class)
         ->args([
