@@ -27,7 +27,7 @@ services:
     oauth2_server.metadata_endpoint_pipe:
         class: OAuth2Framework\Component\Middleware\Pipe
         arguments:
-            - '@oauth2_server.metadata_controller'
+            - ['@oauth2_server.metadata_controller']
         tags:
             - { name: controller.service_arguments }
 
