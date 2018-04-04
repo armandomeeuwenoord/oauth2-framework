@@ -25,7 +25,7 @@ class SessionManagementRouteCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('session_management_pipe') || !$container->getParameter('oauth2_server.endpoint.session_management.enabled')) {
+        if (!$container->hasDefinition('oauth2_server.session_management_pipe') || !$container->getParameter('oauth2_server.endpoint.session_management.enabled')) {
             return;
         }
 
@@ -34,7 +34,7 @@ class SessionManagementRouteCompilerPass implements CompilerPassInterface
         $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
             'openid_connect_iframe_endpoint',
-            'session_management_pipe',
+            'oauth2_server.session_management_pipe',
             'dispatch',
             $path, // path
             [], // defaults

@@ -15,6 +15,7 @@ namespace OAuth2Framework\ServerBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -24,7 +25,7 @@ class AuthorizationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $translator = $options['translator'];
-        /*if (true === $options['allow_scope_selection']) {
+        if (true === $options['allow_scope_selection']) {
             $builder->add('scopes', ChoiceType::class, [
                 'label'             => $translator->trans('authorization.form.scope', [], $options['translation_domain'], $options['locale']),
                 'multiple'          => 'true',
@@ -39,14 +40,16 @@ class AuthorizationType extends AbstractType
                     return $allChoices;
                 },
             ]);
-        }*/
-        /*if (true === $options['is_pre_configured_authorization_enabled']) {
+        }
+
+        if (true === $options['is_pre_configured_authorization_enabled']) {
             $builder
                 ->add('save_configuration', CheckboxType::class, [
                     'label'    => $translator->trans('authorization.form.save', [], $options['translation_domain'], $options['locale']),
                     'required' => false,
                 ]);
-        }*/
+        }
+
         $builder
             ->add('accept', SubmitType::class, [
                 'label' => $translator->trans('authorization.form.accept', [], $options['translation_domain'], $options['locale']),

@@ -23,7 +23,6 @@ class ClientIdChecker implements Checker
      */
     public function check(OAuth2Token $token, OAuth2 $configuration): ?string
     {
-        die('asdsads');
         if (null === $configuration->getClientId()) {
             return null;
         }

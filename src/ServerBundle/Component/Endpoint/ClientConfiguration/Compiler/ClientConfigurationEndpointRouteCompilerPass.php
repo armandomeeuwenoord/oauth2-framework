@@ -25,7 +25,7 @@ class ClientConfigurationEndpointRouteCompilerPass implements CompilerPassInterf
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(ClientConfigurationEndpoint::class)) {
+        if (!$container->hasDefinition('oauth2_server.client_configuration_endpoint')) {
             return;
         }
 
@@ -34,7 +34,7 @@ class ClientConfigurationEndpointRouteCompilerPass implements CompilerPassInterf
         $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
             'client_configuration',
-            'client_configuration_endpoint_pipe',
+            'oauth2_server.client_configuration_endpoint_pipe',
             'dispatch',
             $path, // path
             [], // defaults

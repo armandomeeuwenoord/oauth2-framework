@@ -217,10 +217,10 @@ services:
             - { name: oauth2_server_user_account_discovery }
 
 
-    oauth2_server.user_account.login_parameter_checker:
-        class: OAuth2Framework\Component\AuthorizationEndpoint\UserAccountDiscovery\LoginParameterChecker
-        tags:
-            - { name: oauth2_server_user_account_discovery }
+#    oauth2_server.user_account.login_parameter_checker:
+#        class: OAuth2Framework\Component\AuthorizationEndpoint\UserAccountDiscovery\LoginParameterChecker
+#        tags:
+#            - { name: oauth2_server_user_account_discovery }
 
 #    oauth2_server.user_account.prompt_none_parameter_checker:
 #        class: OAuth2Framework\Component\AuthorizationEndpoint\UserAccountDiscovery\PromptNoneParameterChecker

@@ -28,7 +28,7 @@ class AuthorizationModel
     /**
      * @return bool
      */
-    public function isConfigurationSaved()
+    public function isSaveConfiguration()
     {
         return $this->saveConfiguration;
     }

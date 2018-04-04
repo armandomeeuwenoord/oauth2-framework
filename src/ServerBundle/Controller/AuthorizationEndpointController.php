@@ -154,24 +154,25 @@ class AuthorizationEndpointController extends AuthorizationEndpoint
             //FIXME: $options,
             [
                 'locale' => $ui_locale,
-                //'scopes' => $authorization->getScopes(),
-                //FIXME: 'allowScopeSelection' => $this->allowScopeSelection,
+                'scopes' => $authorization->getScopes(),
+                'allow_scope_selection' => true,
             ]
         );
+
         $authorization_model = new AuthorizationModel();
-        //$authorization_model->setScopes($authorization->getScopes());
+        $authorization_model->setScopes($authorization->getScopes());
         $form = $this->formFactory->createForm($options, $authorization_model);
         $this->session->remove('oauth2_authorization_request_data');
 
         if ('POST' === $request->getMethod()) {
             $authorization = $this->formHandler->handle($form, $request, $authorization, $authorization_model);
 
+            var_dump($form->getData());
+            var_dump($authorization->getRedirectUri());
+
             if (is_bool($authorization->isAuthorized())) {
+
                 throw new ProcessAuthorizationException($authorization);
-                //FIXME
-                /*return [
-                    'save_authorization' => $authorization_model->isSaveConfiguration(),
-                ];*/
             }
         }
 
@@ -187,13 +188,15 @@ class AuthorizationEndpointController extends AuthorizationEndpoint
      */
     private function prepareResponse(Authorization $authorization, FormInterface $form, string $ui_locale = null): ResponseInterface
     {
+//        var_dump($this->template);
+        
         $content = $this->templateEngine->render(
             $this->template,
             [
                 'form' => $form->createView(),
                 'authorization' => $authorization,
                 'ui_locale' => $ui_locale,
-                //FIXME: 'is_pre_configured_authorization_enabled' => true,
+                'is_pre_configured_authorization_enabled' => true,
             ]
         );
 

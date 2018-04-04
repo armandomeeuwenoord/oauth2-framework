@@ -26,7 +26,7 @@ class ClientRegistrationEndpointRouteCompilerPass implements CompilerPassInterfa
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(ClientRegistrationEndpoint::class)) {
+        if (!$container->hasDefinition('oauth2_server.client_registration_initial_registration_endpoint')) {
             return;
         }
 
@@ -35,7 +35,7 @@ class ClientRegistrationEndpointRouteCompilerPass implements CompilerPassInterfa
         $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
             'client_registration',
-            'client_registration_endpoint_pipe',
+            'oauth2_server.client_registration_initial_registration_endpoint_pipe',
             'dispatch',
             $path, // path
             [], // defaults

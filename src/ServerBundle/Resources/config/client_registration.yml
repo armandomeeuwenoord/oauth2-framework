@@ -1,6 +1,6 @@
 services:
     oauth2_server.client_registration_initial_registration_endpoint:
-        class: OAuth2Framework\Component\Middleware\Pipe
+        class: OAuth2Framework\Component\Server\Endpoint\ClientRegistration\ClientRegistrationEndpoint
         arguments:
             - '@oauth2_server.client.repository'
             - '@oauth2_server.oauth2_response_middleware'
@@ -11,8 +11,7 @@ services:
     oauth2_server.client_registration_initial_registration_endpoint_pipe:
         class: OAuth2Framework\Component\Middleware\Pipe
         arguments:
-            - '@oauth2_server.oauth2_response_middleware'
-            - 'oauth2_server.client_registration_initial_registration_endpoint'
+            - ['@oauth2_server.oauth2_response_middleware', 'oauth2_server.client_registration_initial_registration_endpoint']
         tags:
             - { name: controller.service_arguments }
 

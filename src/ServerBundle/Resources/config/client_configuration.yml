@@ -2,7 +2,7 @@ services:
     oauth2_server.client_configuration_endpoint_pipe:
         class: OAuth2Framework\Component\Middleware\Pipe
         arguments:
-            - '@oauth2_server.oauth2_response_middleware'
+            - ['@oauth2_server.oauth2_response_middleware', '@oauth2_server.client_configuration_middleware', '@oauth2_server.client_configuration_endpoint']
 
     oauth2_server.client_configuration_bearer_token:
         class: OAuth2Framework\Component\BearerTokenType\BearerToken
@@ -22,7 +22,7 @@ services:
             - '@oauth2_server.client_configuration_client_rule_manager'
 
     oauth2_server.client_configuration_middleware:
-        class: OAuth2Framework\Component\ClientConfigurationEndpoint\ClientConfigurationMiddleware
+        class: OAuth2Framework\ServerBundle\Controller\ClientConfigurationMiddleware
         arguments:
             - '@oauth2_server.client.repository'
 
