@@ -31,7 +31,7 @@ use SimpleBus\Message\Recorder\PrivateMessageRecorderCapabilities;
  * A client is a resource owner with a set of allowed grant types and can perform requests against
  * available endpoints.
  */
-class Client implements ResourceOwner, ContainsRecordedMessages, ClientInterface
+class Client implements ContainsRecordedMessages, ClientInterface
 {
     use PrivateMessageRecorderCapabilities;
 
@@ -252,13 +252,9 @@ class Client implements ResourceOwner, ContainsRecordedMessages, ClientInterface
     /**
      * {@inheritdoc}
      */
-    public function getPublicId(): ResourceOwnerId
+    public function getPublicId()
     {
-        if (null === $this->clientId) {
-            throw new \RuntimeException('Client not initialized.');
-        }
-
-        return $this->clientId;
+        return ClientId::create($this->clientId);
     }
 
     /**

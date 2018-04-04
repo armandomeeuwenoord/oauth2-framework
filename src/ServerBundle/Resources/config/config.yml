@@ -1,0 +1,67 @@
+parameters:
+    oauth2_server.server_uri: 'https://onlinevoicemail.local/'
+    oauth2_server.scope.policy.default.scope: 'email phone profile'
+    oauth2_server.token_type.default: 'Bearer'
+    oauth2_server.token_type.bearer_token.realm: ''
+    oauth2_server.token_type.bearer_token.authorization_header: 'Bearer'
+    oauth2_server.token_type.bearer_token.request_body: ''
+    oauth2_server.token_type.bearer_token.query_string: 'token'
+    oauth2_server.token_type.allow_token_type_parameter: true
+    oauth2_server.token_type.mac_token.algorithm: 'hmac-sha-256'
+    oauth2_server.token_type.mac_token.min_length: 10
+    oauth2_server.token_type.mac_token.max_length: 10
+    oauth2_server.token_type.mac_token.timestamp_lifetime: 1000
+    oauth2_server.grant.authorization_code.min_length: 5
+    oauth2_server.grant.authorization_code.max_length: 32
+    oauth2_server.grant.authorization_code.lifetime: 10000
+    oauth2_server.grant.authorization_code.enforce_pkce: true
+    oauth2_server.client_authentication.client_assertion_jwt.secret_lifetime: 100
+    oauth2_server.client_authentication.client_secret_basic.realm: 'My super service'
+    oauth2_server.client_authentication.client_secret_basic.secret_lifetime: 100
+    oauth2_server.client_authentication.client_secret_post.secret_lifetime: 100
+    oauth2_server.access_token.lifetime: 100
+    oauth2_server.access_token.id_generator.class: 'OnlineVoicemail\Api\RestBundle\Entity\AccessTokenIdGenerator'
+#    oauth2_server.endpoint.authorization.form: 'OAuth2Framework\ServerBundle\Form\Type\AuthorizationType'
+    oauth2_server.endpoint.authorization.form.class: 'OAuth2Framework\ServerBundle\Form\Type\AuthorizationType'
+    oauth2_server.endpoint.authorization.path: '/authorize'
+    oauth2_server.endpoint.authorization.host: ~
+    oauth2_server.endpoint.authorization.template: 'OAuth2FrameworkServerBundle::authorization/authorization.html.twig'
+    oauth2_server.endpoint.authorization.login_route_name: 'fos_user_security_login'
+    oauth2_server.endpoint.authorization.login_route_parameters: []
+    oauth2_server.endpoint.authorization.enforce_state: ""
+    oauth2_server.endpoint.authorization.response_mode.allow_response_mode_parameter: ''
+    oauth2_server.endpoint.authorization.response_mode.form_post.template: 'form_post/response.html.twig'
+    oauth2_server.endpoint.client_configuration.realm: 'asdsad'
+    oauth2_server.endpoint.session_management.template: 'OAuth2FrameworkServerBundle::form_post/response.html.twig'
+    oauth2_server.endpoint.session_management.storage_name: 'haha'
+    oauth2_server.openid_connect.id_token.lifetime: 1000
+    oauth2_server.openid_connect.id_token.signature_algorithms: ['RS256', 'RS512', 'ES256', 'ES512', 'none']
+    oauth2_server.openid_connect.id_token.default_signature_algorithm: 'RS256'
+
+services:
+    oauth2_server.scope.repository:
+        alias: online_voicemail_api_rest.scope_repository
+
+    oauth2_server.resource_server_repository:
+        alias: online_voicemail_api_rest.resource_server_repository
+
+    oauth2_server.client.repository:
+        alias: online_voicemail_api_rest.client.repository
+
+    oauth2_server.access_token.repository:
+        alias: online_voicemail_api_rest.access_token.repository
+
+    oauth2_server.grant.refresh_token.repository:
+        alias: online_voicemail_api_rest.refresh_token.repository
+
+    oauth2_server.client_registration.initial_access_token_repository:
+        alias: online_voicemail_api_rest.access_token.repository
+
+    oauth2_server.grant.authorization_code.repository:
+        alias: online_voicemail_api_rest.auth_code.repository
+
+    oauth2_server.user_account.repository:
+        alias: online_voicemail_api_rest.user.repository
+
+    oauth2_server.user_account.manager:
+        alias: online_voicemail_portal_auth.user_manager

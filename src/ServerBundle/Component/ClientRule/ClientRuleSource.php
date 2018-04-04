@@ -36,8 +36,6 @@ class ClientRuleSource implements Component
     public function load(array $configs, ContainerBuilder $container)
     {
         $container->registerForAutoconfiguration(Rule::class)->addTag('oauth2_server_client_rule');
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/client_rule'));
-        $loader->load('client_rule.php');
     }
 
     /**

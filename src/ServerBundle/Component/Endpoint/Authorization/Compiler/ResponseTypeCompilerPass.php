@@ -26,20 +26,21 @@ class ResponseTypeCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(ResponseTypeManager::class)) {
+        if (!$container->hasDefinition('oauth2_server.endpoint.authorization_response_type_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition(ResponseTypeManager::class);
+        $definition = $container->getDefinition('oauth2_server.endpoint.authorization_response_type_manager');
 
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_response_type');
         foreach ($taggedServices as $id => $attributes) {
+            var_dump($id);
             $definition->addMethodCall('add', [new Reference($id)]);
         }
 
-        if ($container->hasDefinition(MetadataBuilder::class)) {
-            $metadata = $container->getDefinition(MetadataBuilder::class);
-            $metadata->addMethodCall('setResponseTypeManager', [new Reference(ResponseTypeManager::class)]);
+        if ($container->hasDefinition('oauth2_server.metadata_builder')) {
+            $metadata = $container->getDefinition('oauth2_server.metadata_builder');
+            $metadata->addMethodCall('setResponseTypeManager', [new Reference('oauth2_server.endpoint.authorization_response_type_manager')]);
         }
     }
 }

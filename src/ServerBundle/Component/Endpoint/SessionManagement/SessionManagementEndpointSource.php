@@ -43,9 +43,6 @@ class SessionManagementEndpointSource implements Component
         $container->setParameter('oauth2_server.endpoint.session_management.host', $config['host']);
         $container->setParameter('oauth2_server.endpoint.session_management.storage_name', $config['storage_name']);
         $container->setParameter('oauth2_server.endpoint.session_management.template', $config['template']);
-
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/endpoint/session_management'));
-        //$loader->load('session_management.php');
     }
 
     /**

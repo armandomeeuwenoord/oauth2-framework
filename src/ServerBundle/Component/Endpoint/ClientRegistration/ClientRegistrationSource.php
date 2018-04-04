@@ -59,12 +59,9 @@ class ClientRegistrationSource implements Component
         $container->setParameter('oauth2_server.endpoint.client_registration.path', $config['path']);
         $container->setParameter('oauth2_server.endpoint.client_registration.host', $config['host']);
 
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/endpoint/client_registration'));
-        $loader->load('client_registration.php');
-
-        foreach ($this->subComponents as $subComponent) {
-            $subComponent->load($configs, $container);
-        }
+//        foreach ($this->subComponents as $subComponent) {
+//            $subComponent->load($configs, $container);
+//        }
     }
 
     /**

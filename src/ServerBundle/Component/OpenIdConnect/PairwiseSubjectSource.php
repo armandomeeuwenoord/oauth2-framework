@@ -36,8 +36,8 @@ class PairwiseSubjectSource implements Component
             return;
         }
 
-        $container->setAlias('oauth2_server.openid_connect.pairwise.service', $configs['openid_connect']['pairwise_subject']['service']);
-        $container->setParameter('oauth2_server.openid_connect.pairwise.is_default', $configs['openid_connect']['pairwise_subject']['is_default']);
+//        $container->setAlias('oauth2_server.openid_connect.pairwise.service', $configs['openid_connect']['pairwise_subject']['service']);
+//        $container->setParameter('oauth2_server.openid_connect.pairwise.is_default', $configs['openid_connect']['pairwise_subject']['is_default']);
     }
 
     /**

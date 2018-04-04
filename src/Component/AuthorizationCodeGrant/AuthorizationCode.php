@@ -18,12 +18,13 @@ use OAuth2Framework\Component\Core\Client\ClientId;
 use OAuth2Framework\Component\Core\DataBag\DataBag;
 use OAuth2Framework\Component\Core\Domain\DomainObject;
 use OAuth2Framework\Component\Core\Event\Event;
+use OAuth2Framework\Component\Core\ResourceOwner\ResourceOwnerId;
 use OAuth2Framework\Component\Core\ResourceServer\ResourceServerId;
 use OAuth2Framework\Component\Core\Token\Token;
 use OAuth2Framework\Component\Core\Token\TokenId;
 use OAuth2Framework\Component\Core\UserAccount\UserAccountId;
 
-class AuthorizationCode extends Token
+class AuthorizationCode extends Token implements AuthorizationCodeInterface
 {
     /**
      * @var AuthorizationCodeId
@@ -74,7 +75,7 @@ class AuthorizationCode extends Token
      *
      * @return AuthorizationCode
      */
-    public function create(AuthorizationCodeId $authorizationCodeId, ClientId $clientId, UserAccountId $userAccountId, array $queryParameters, string $redirectUri, \DateTimeImmutable $expiresAt, DataBag $parameters, DataBag $metadatas, ? ResourceServerId $resourceServerId)
+    public function create(AuthorizationCodeId $authorizationCodeId, ResourceOwnerId $clientId, UserAccountId $userAccountId, array $queryParameters, string $redirectUri, \DateTimeImmutable $expiresAt, DataBag $parameters, DataBag $metadatas, ? ResourceServerId $resourceServerId)
     {
         $clone = clone $this;
         $clone->authorizationCodeId = $authorizationCodeId;
@@ -93,6 +94,22 @@ class AuthorizationCode extends Token
         $clone->record($event);
 
         return $clone;
+    }
+
+    /**
+     * @return AuthorizationCodeId
+     */
+    public function getAuthorizationCodeId(): AuthorizationCodeId
+    {
+        return $this->authorizationCodeId;
+    }
+
+    /**
+     * @param AuthorizationCodeId $authorizationCodeId
+     */
+    public function setAuthorizationCodeId(AuthorizationCodeId $authorizationCodeId): void
+    {
+        $this->authorizationCodeId = $authorizationCodeId;
     }
 
     /**

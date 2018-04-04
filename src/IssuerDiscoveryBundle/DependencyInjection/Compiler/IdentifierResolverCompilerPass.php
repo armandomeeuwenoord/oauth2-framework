@@ -31,9 +31,9 @@ class IdentifierResolverCompilerPass implements CompilerPassInterface
 
         $client_manager = $container->getDefinition(IdentifierResolverManager::class);
 
-        $taggedServices = $container->findTaggedServiceIds('issuer_discovery_identifier_resolver');
-        foreach ($taggedServices as $id => $attributes) {
-            $client_manager->addMethodCall('add', [new Reference($id)]);
-        }
+//        $taggedServices = $container->findTaggedServiceIds('issuer_discovery_identifier_resolver');
+//        foreach ($taggedServices as $id => $attributes) {
+//            $client_manager->addMethodCall('add', [new Reference($id)]);
+//        }
     }
 }

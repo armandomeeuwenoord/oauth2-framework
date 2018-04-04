@@ -1,0 +1,99 @@
+services:
+    oauth2_server.openid_connect.id_token_builder_factory:
+        class: OAuth2Framework\Component\OpenIdConnect\IdTokenBuilderFactory
+        arguments:
+            - '%oauth2_server.server_uri%'
+            - '@oauth2_server.openid_connect.user_info'
+            - '%oauth2_server.openid_connect.id_token.lifetime%'
+
+    oauth2_server.openid_connect.rule_id_token_algorithms:
+        class: OAuth2Framework\Component\OpenIdConnect\Rule\IdTokenAlgorithmsRule
+        arguments:
+            - '@?jose.jws_builder.id_token'
+            - '@?jose.jwe_builder.id_token'
+
+    oauth2_server.openid_connect.rule_subject_type:
+        class: OAuth2Framework\Component\OpenIdConnect\Rule\SubjectTypeRule
+        arguments:
+            - '@oauth2_server.openid_connect.user_info'
+
+    oauth2_server.openid_connect.id_token_loader:
+        class: OAuth2Framework\Component\OpenIdConnect\IdTokenLoader
+        arguments:
+            - '@jose.jws_loader.id_token'
+            - '@jose.key_set.oauth2_server.key_set.signature'
+            - '%oauth2_server.openid_connect.id_token.signature_algorithms%'
+
+    oauth2_server.openid_connect.id_token_hint_discovery:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\UserAccountDiscovery\IdTokenHintDiscovery
+        arguments:
+            - '@oauth2_server.openid_connect.id_token_loader'
+            - '@oauth2_server.access_token.repository'
+            - '@oauth2_server.user_account.repository'
+
+    oauth2_server.openid_connect.id_token_response_type:
+        class: OAuth2Framework\Component\OpenIdConnect\IdTokenGrant\IdTokenResponseType
+        arguments:
+            - '@oauth2_server.openid_connect.id_token_builder_factory'
+            - '%oauth2_server.openid_connect.id_token.default_signature_algorithm%'
+            - '@jose.jws_builder.id_token'
+            - '@jose.key_set.oauth2_server.key_set.signature'
+            - '@?jose.encrypter.id_token'
+        tags:
+            - { name: oauth2_server_response_type }
+
+    oauth2_server.openid_connect.user_info_scope_support_manager:
+        class: OAuth2Framework\Component\OpenIdConnect\UserInfo\ScopeSupport\UserInfoScopeSupportManager
+
+    oauth2_server.openid_connect.user_info_claim_source_manager:
+        class: OAuth2Framework\Component\OpenIdConnect\UserInfo\ClaimSource\ClaimSourceManager
+        arguments:
+            - '@oauth2_server.openid_connect.id_token_loader'
+
+    oauth2_server.openid_connect.user_info:
+        class: OAuth2Framework\Component\OpenIdConnect\UserInfo\UserInfo
+        arguments:
+            - '@oauth2_server.openid_connect.user_info_scope_support_manager'
+            - '@oauth2_server.openid_connect.user_info_claim_source_manager'
+
+    oauth2_server.openid_connect.user_info_endpoint:
+        class: OAuth2Framework\Component\Endpoint\UserInfo\UserInfoEndpoint
+        arguments:
+            - '@oauth2_server.openid_connect.id_token_builder_factory'
+            - '@oauth2_server.client.repository'
+            - '@httplug.message_factory'
+
+    oauth2_server.openid_connect.user_info_security_middleware:
+        class: OAuth2Framework\Component\Middleware\OAuth2SecurityMiddleware
+        arguments:
+            - '@oauth2_server.openid_connect.id_token_builder_factory'
+            - '@oauth2_server.client.repository'
+            - '@httplug.message_factory'
+
+    oauth2_server.openid_connect.user_info_endpoint_algorithms_rule:
+        class: OAuth2Framework\Component\ClientRule\UserinfoEndpointAlgorithmsRule
+        arguments:
+            - '@?jose.jws_builder.id_token'
+            - '@?jose.jwe_builder.id_token'
+        tags:
+            - { name: oauth2_server_client_rule }
+
+    oauth2_server.openid_connect.user_info_scope_support.address:
+        class: OAuth2Framework\Component\OpenIdConnect\UserInfo\ScopeSupport\AddressScopeSupport
+        tags:
+            - { name: oauth2_server_userinfo_scope_support }
+
+    oauth2_server.openid_connect.user_info_scope_support.email:
+        class: OAuth2Framework\Component\OpenIdConnect\UserInfo\ScopeSupport\EmailScopeSupport
+        tags:
+            - { name: oauth2_server_userinfo_scope_support }
+
+    oauth2_server.openid_connect.user_info_scope_support.phone:
+        class: OAuth2Framework\Component\OpenIdConnect\UserInfo\ScopeSupport\PhoneScopeSupport
+        tags:
+            - { name: oauth2_server_userinfo_scope_support }
+
+    oauth2_server.openid_connect.user_info_scope_support.profile:
+        class: OAuth2Framework\Component\OpenIdConnect\UserInfo\ScopeSupport\ProfilScopeSupport
+        tags:
+            - { name: oauth2_server_userinfo_scope_support }

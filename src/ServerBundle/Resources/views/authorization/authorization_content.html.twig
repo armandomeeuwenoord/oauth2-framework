@@ -1,4 +1,5 @@
 <p>
+    hallo
     {{ 'authorization.form.message'|trans({'%client_id%': authorization.getClient().getPublicId()}, 'OAuth2FrameworkServer', ui_locale) }}<br />
 </p>
 {{ form_start(form, {'action':app.request.uri }) }}
@@ -34,3 +35,5 @@
 {% if authorization.getClient().has('tos_uri') %}
     <p><a href="{{ authorization.getClient().get('tos_uri') }}">Read the client' Terms of Service</a></p>
 {% endif %}
+
+asdsad

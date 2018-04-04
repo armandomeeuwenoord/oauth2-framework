@@ -1,0 +1,34 @@
+services:
+    oauth2_server.client_registration_initial_registration_endpoint:
+        class: OAuth2Framework\Component\Middleware\Pipe
+        arguments:
+            - '@oauth2_server.client.repository'
+            - '@oauth2_server.oauth2_response_middleware'
+            - '@httplug.message_factory'
+            - '@command_bus'
+            - '@oauth2_server.client_configuration_client_rule_manager'
+
+    oauth2_server.client_registration_initial_registration_endpoint_pipe:
+        class: OAuth2Framework\Component\Middleware\Pipe
+        arguments:
+            - '@oauth2_server.oauth2_response_middleware'
+            - 'oauth2_server.client_registration_initial_registration_endpoint'
+        tags:
+            - { name: controller.service_arguments }
+
+    oauth2_server.client_registration_initial_access_token_middleware:
+        class: OAuth2Framework\Component\ClientRegistrationEndpoint\InitialAccessTokenMiddleware
+        arguments:
+            - '@oauth2_server.client_configuration_bearer_token'
+            - '@oauth2_server.client_registration.initial_access_token_repository'
+
+
+#    oauth2_server.client_registration_initial_access_token_command_create:
+#        class: OAuth2Framework\Component\ClientRegistrationEndpoint\Command\CreateInitialAccessTokenCommandHandler
+#        arguments:
+#            - '@oauth2_server.client_registration.initial_access_token_repository'
+#
+#    oauth2_server.client_registration_initial_access_token_command_revoke:
+#        class: OAuth2Framework\Component\ClientRegistrationEndpoint\Command\RevokeInitialAccessTokenCommandHandler
+#        arguments:
+#            - '@oauth2_server.client_registration.initial_access_token_repository'

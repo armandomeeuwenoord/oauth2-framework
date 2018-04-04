@@ -1,0 +1,49 @@
+services:
+
+    oauth2_server.oauth2_response_factory_manager:
+        class: OAuth2Framework\Component\Core\Response\OAuth2ResponseFactoryManager
+        arguments:
+            - '@httplug.message_factory'
+
+    oauth2_server.oauth2_response_factory.access_denied:
+        class: OAuth2Framework\Component\Core\Response\Factory\AccessDeniedResponseFactory
+        tags:
+            - { name: oauth2_server_response_factory }
+
+    oauth2_server.oauth2_response_factory.bad_request:
+        class: OAuth2Framework\Component\Core\Response\Factory\BadRequestResponseFactory
+        tags:
+            - { name: oauth2_server_response_factory }
+
+    oauth2_server.oauth2_response_factory.method_not_allowed:
+        class: OAuth2Framework\Component\Core\Response\Factory\MethodNotAllowedResponseFactory
+        tags:
+            - { name: oauth2_server_response_factory }
+
+    oauth2_server.oauth2_response_factory.not_implemented:
+        class: OAuth2Framework\Component\Core\Response\Factory\NotImplementedResponseFactory
+        tags:
+            - { name: oauth2_server_response_factory }
+
+    oauth2_server.oauth2_response_factory.redirect:
+        class: OAuth2Framework\Component\Core\Response\Factory\RedirectResponseFactory
+        tags:
+            - { name: oauth2_server_response_factory }
+
+    oauth2_server.oauth2_response_factory.authenticate:
+        class: OAuth2Framework\ServerBundle\Response\AuthenticateResponseFactory
+        arguments:
+            - '@oauth2_server.client_authentication_method_manager'
+        tags:
+            - { name: oauth2_server_response_factory }
+
+#    oauth2_server.response_type_:
+#        class: OAuth2Framework\Component\AuthorizationEndpoint\ResponseMode\FragmentResponseMode
+#        arguments:
+#            - '@httplug.message_factory'
+#        tags:
+#            - { name: oauth2_server_response_mode }
+
+
+
+

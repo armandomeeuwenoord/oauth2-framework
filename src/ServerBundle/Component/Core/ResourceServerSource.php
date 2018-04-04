@@ -36,16 +36,12 @@ class ResourceServerSource implements Component
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $container->registerForAutoconfiguration(AuthenticationMethodManager::class)->addTag('resource_server_authentication_method');
-
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/resource_server'));
-        $loader->load('resource_server.php');
+        $container->registerForAutoconfiguration('oauth2_server.client_authentication_method_manager')->addTag('resource_server_authentication_method');
 
         if (null === $configs['resource_server']['repository']) {
             return;
         }
         $container->setParameter('oauth2_server.resource_server_repository', $configs['resource_server']['repository']);
-        $loader->load('authentication_middleware.php');
     }
 
     /**

@@ -37,9 +37,6 @@ class UserinfoEndpointEncryptionSource implements Component
         if (!$configs['openid_connect']['userinfo_endpoint']['encryption']['enabled']) {
             return;
         }
-
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/openid_connect'));
-        //$loader->load('userinfo_endpoint.php');
     }
 
     /**

@@ -64,6 +64,7 @@ class OAuth2FrameworkServerBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
         foreach ($this->components as $component) {
             $component->build($container);
         }
@@ -96,7 +97,6 @@ class OAuth2FrameworkServerBundle extends Bundle
             new Component\OpenIdConnect\OpenIdConnectSource(),
 
             new Component\Firewall\FirewallSource(),
-//            new Component\HttpSource(),
             new Component\KeySet(),
         ];
     }

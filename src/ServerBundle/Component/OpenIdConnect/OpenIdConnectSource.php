@@ -18,6 +18,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use OAuth2Framework\ServerBundle\Component\OpenIdConnect\Compiler\UserAccountDiscoveryCompilerPass;
 
 class OpenIdConnectSource implements Component
 {
@@ -50,13 +51,9 @@ class OpenIdConnectSource implements Component
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        if (!$configs['openid_connect']['enabled']) {
-            return;
-        }
-
-
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/openid_connect'));
-        $loader->load('openid_connect.php');
+//        if (!$configs['openid_connect']['enabled']) {
+//            return;
+//        }
 
         foreach ($this->subComponents as $subComponent) {
             $subComponent->load($configs, $container);
@@ -98,6 +95,7 @@ class OpenIdConnectSource implements Component
      */
     public function build(ContainerBuilder $container)
     {
+
         //Nothing to do
         foreach ($this->subComponents as $component) {
             $component->build($container);

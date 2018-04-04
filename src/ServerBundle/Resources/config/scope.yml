@@ -1,0 +1,38 @@
+services:
+    oauth2_server.scope.rule:
+        class: OAuth2Framework\Component\Scope\Rule\ScopeRule
+
+    oauth2_server.scope.policy_manager:
+        class: OAuth2Framework\Component\Scope\Policy\ScopePolicyManager
+
+    oauth2_server.scope.policy_rule:
+        class: OAuth2Framework\Component\Scope\Rule\ScopePolicyRule
+
+    oauth2_server.scope.no_scope_policy:
+        class: OAuth2Framework\Component\Scope\Policy\NoScopePolicy
+        tags:
+            - { name: oauth2_server_scope_policy, policy_name: 'none' }
+
+    oauth2_server.scope.default_scope_policy:
+        class: OAuth2Framework\Component\Scope\Policy\DefaultScopePolicy
+        tags:
+            - { name: oauth2_server_scope_policy, policy_name: 'default' }
+
+    oauth2_server.scope.error_scope_policy:
+        class: OAuth2Framework\Component\Scope\Policy\ErrorScopePolicy
+        arguments:
+            - '%oauth2_server.scope.policy.default.scope%'
+        tags:
+            - { name: oauth2_server_scope_policy, policy_name: 'error' }
+
+    oauth2_server.scope.parameter_checker:
+        class: OAuth2Framework\Component\Scope\ScopeParameterChecker
+        arguments:
+            - '@oauth2_server.scope.repository'
+            - '@oauth2_server.scope.policy_manager'
+
+    oauth2_server.scope.token_endpoint_extension:
+        class: OAuth2Framework\Component\Scope\TokenEndpointScopeExtension
+        arguments:
+            - '@oauth2_server.scope.repository'
+            - '@oauth2_server.scope.policy_manager'

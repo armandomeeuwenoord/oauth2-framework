@@ -79,6 +79,7 @@ class OAuth2ResponseFactoryManager
         }
 
         $factory = $this->getResponseFactory($code);
+
         $response = $this->psr7responseFactory->createResponse($code);
 
         return $factory->createResponse($data, $response);

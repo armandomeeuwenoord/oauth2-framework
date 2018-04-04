@@ -30,7 +30,7 @@ class MetadataRouteCompilerPass implements CompilerPassInterface
 
         $path = $container->getParameter('oauth2_server.endpoint.metadata.path');
         $host = $container->getParameter('oauth2_server.endpoint.metadata.host');
-        $route_loader = $container->getDefinition(RouteLoader::class);
+        $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
             'metadata_endpoint',
             'metadata_endpoint_pipe',

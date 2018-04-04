@@ -34,26 +34,26 @@ class TokenTypeSource implements Component
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/token_type'));
-        $loader->load('token_type.php');
-
-        $container->setParameter('oauth2_server.token_type.default', $configs['token_type']['default']);
-        $container->setParameter('oauth2_server.token_type.allow_token_type_parameter', $configs['token_type']['allow_token_type_parameter']);
-
-        if ($configs['token_type']['bearer_token']['enabled']) {
-            $container->setParameter('oauth2_server.token_type.bearer_token.realm', $configs['token_type']['bearer_token']['realm']);
-            $container->setParameter('oauth2_server.token_type.bearer_token.authorization_header', $configs['token_type']['bearer_token']['authorization_header']);
-            $container->setParameter('oauth2_server.token_type.bearer_token.query_string', $configs['token_type']['bearer_token']['query_string']);
-            $container->setParameter('oauth2_server.token_type.bearer_token.request_body', $configs['token_type']['bearer_token']['request_body']);
-            $loader->load('bearer_token.php');
-        }
-        if ($configs['token_type']['mac_token']['enabled']) {
-            $container->setParameter('oauth2_server.token_type.mac_token.min_length', $configs['token_type']['mac_token']['min_length']);
-            $container->setParameter('oauth2_server.token_type.mac_token.max_length', $configs['token_type']['mac_token']['max_length']);
-            $container->setParameter('oauth2_server.token_type.mac_token.algorithm', $configs['token_type']['mac_token']['algorithm']);
-            $container->setParameter('oauth2_server.token_type.mac_token.timestamp_lifetime', $configs['token_type']['mac_token']['timestamp_lifetime']);
-            $loader->load('mac_token.php');
-        }
+//        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/token_type'));
+//        $loader->load('token_type.php');
+//
+//        $container->setParameter('oauth2_server.token_type.default', $configs['token_type']['default']);
+//        $container->setParameter('oauth2_server.token_type.allow_token_type_parameter', $configs['token_type']['allow_token_type_parameter']);
+//
+//        if ($configs['token_type']['bearer_token']['enabled']) {
+//            $container->setParameter('oauth2_server.token_type.bearer_token.realm', $configs['token_type']['bearer_token']['realm']);
+//            $container->setParameter('oauth2_server.token_type.bearer_token.authorization_header', $configs['token_type']['bearer_token']['authorization_header']);
+//            $container->setParameter('oauth2_server.token_type.bearer_token.query_string', $configs['token_type']['bearer_token']['query_string']);
+//            $container->setParameter('oauth2_server.token_type.bearer_token.request_body', $configs['token_type']['bearer_token']['request_body']);
+//            $loader->load('bearer_token.php');
+//        }
+//        if ($configs['token_type']['mac_token']['enabled']) {
+//            $container->setParameter('oauth2_server.token_type.mac_token.min_length', $configs['token_type']['mac_token']['min_length']);
+//            $container->setParameter('oauth2_server.token_type.mac_token.max_length', $configs['token_type']['mac_token']['max_length']);
+//            $container->setParameter('oauth2_server.token_type.mac_token.algorithm', $configs['token_type']['mac_token']['algorithm']);
+//            $container->setParameter('oauth2_server.token_type.mac_token.timestamp_lifetime', $configs['token_type']['mac_token']['timestamp_lifetime']);
+//            $loader->load('mac_token.php');
+//        }
     }
 
     /**

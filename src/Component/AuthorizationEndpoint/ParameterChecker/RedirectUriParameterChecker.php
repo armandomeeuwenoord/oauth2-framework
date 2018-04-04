@@ -28,6 +28,7 @@ class RedirectUriParameterChecker implements ParameterChecker
             if (!$authorization->hasQueryParam('redirect_uri')) {
                 throw new \InvalidArgumentException('The parameter "redirect_uri" is mandatory.');
             }
+
             $redirectUri = $authorization->getQueryParam('redirect_uri');
             $authorization = $authorization->withRedirectUri($redirectUri);
 

@@ -80,6 +80,9 @@ class ResponseTypeAndResponseModeParameterChecker implements ParameterChecker
             }
             $authorization = $authorization->withResponseMode($this->responseModeManager->get($responseMode));
 
+            var_dump($responseMode);
+
+
             return $authorization;
         } catch (\InvalidArgumentException $e) {
             throw new OAuth2AuthorizationException(400, OAuth2Exception::ERROR_INVALID_REQUEST, $e->getMessage(), $authorization, $e);

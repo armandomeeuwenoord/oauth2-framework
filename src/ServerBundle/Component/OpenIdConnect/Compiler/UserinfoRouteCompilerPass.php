@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace OAuth2Framework\ServerBundle\DependencyInjection\Compiler;
+namespace OAuth2Framework\ServerBundle\Component\OpenIdConnect\Compiler;
 
 use OAuth2Framework\ServerBundle\Routing\RouteLoader;
 use OAuth2Framework\ServerBundle\Service\MetadataBuilder;
@@ -30,7 +30,7 @@ class UserinfoRouteCompilerPass implements CompilerPassInterface
         }
 
         $path = $container->getParameter('oauth2_server.openid_connect.userinfo_endpoint.path');
-        $route_loader = $container->getDefinition(RouteLoader::class);
+        $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
             'openid_connect_userinfo_endpoint',
             'oauth2_server_userinfo_pipe',

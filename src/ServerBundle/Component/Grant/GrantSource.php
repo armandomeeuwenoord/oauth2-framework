@@ -59,12 +59,10 @@ class GrantSource implements Component
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/grant'));
-        $loader->load('grant.php');
-
-        foreach ($this->subComponents as $subComponent) {
-            $subComponent->load($configs, $container);
-        }
+//
+//        foreach ($this->subComponents as $subComponent) {
+//            $subComponent->load($configs, $container);
+//        }
     }
 
     /**

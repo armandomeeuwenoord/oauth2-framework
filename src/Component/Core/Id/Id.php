@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace OAuth2Framework\Component\Core\Id;
 
-abstract class Id implements \JsonSerializable
+abstract class  Id implements \JsonSerializable
 {
     /**
      * @var string

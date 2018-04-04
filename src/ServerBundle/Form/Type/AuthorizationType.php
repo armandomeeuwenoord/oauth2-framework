@@ -81,4 +81,9 @@ class AuthorizationType extends AbstractType
     {
         return 'oauth2_server_authorization';
     }
+
+    public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
 }

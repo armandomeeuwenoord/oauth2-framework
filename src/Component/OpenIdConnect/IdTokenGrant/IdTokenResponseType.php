@@ -128,7 +128,7 @@ class IdTokenResponseType implements ResponseType
             $authorization->getUserAccount(),
             $authorization->getRedirectUri()
         );
-        $idTokenBuilder = $idTokenBuilder->withRequestedClaims($requestedClaims);
+//        $idTokenBuilder = $idTokenBuilder->withRequestedClaims($requestedClaims);
         $idTokenBuilder = $idTokenBuilder->withScope($authorization->getScopes());
         $idTokenBuilder = $idTokenBuilder->withNonce($params['nonce']);
 

@@ -117,6 +117,8 @@ class AuthorizationCodeResponseType implements ResponseType
 
         $length = random_int($this->minLength, $this->maxLength);
         $authorizationCode = AuthorizationCode::createEmpty();
+
+        var_dump($authorization->getClient()->getPublicId());
         $authorizationCode = $authorizationCode->create(
             AuthorizationCodeId::create(Base64Url::encode(random_bytes($length * 8))),
             $authorization->getClient()->getPublicId(),
@@ -129,6 +131,7 @@ class AuthorizationCodeResponseType implements ResponseType
             $authorization->getResourceServer() ? $authorization->getResourceServer()->getResourceServerId() : null
         );
         $this->authorizationCodeRepository->save($authorizationCode);
+
         $authorization = $authorization->withResponseParameter('code', $authorizationCode->getTokenId()->getValue());
 
         return $authorization;

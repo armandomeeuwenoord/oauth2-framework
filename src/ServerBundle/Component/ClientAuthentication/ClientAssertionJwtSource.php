@@ -50,9 +50,6 @@ class ClientAssertionJwtSource implements Component
             $container->setParameter('oauth2_server.client_authentication.client_assertion_jwt.'.$key, $config[$key]);
         }
 
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/client_authentication'));
-        $loader->load('client_assertion_jwt.php');
-
         $container->setParameter('oauth2_server.client_authentication.client_assertion_jwt.encryption.enabled', $config['encryption']['enabled']);
         if (!$config['encryption']['enabled']) {
             return;

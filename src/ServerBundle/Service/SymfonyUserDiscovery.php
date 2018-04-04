@@ -48,7 +48,6 @@ class SymfonyUserDiscovery implements UserAccountDiscovery
      */
     public function find(Authorization $authorization, ?bool &$isFullyAuthenticated = null): ?UserAccount
     {
-        var_dump('already exist');
         if (null !== $token = $this->tokenStorage->getToken()) {
             $userAccount = $token->getUser();
             if ($userAccount instanceof UserAccount) {

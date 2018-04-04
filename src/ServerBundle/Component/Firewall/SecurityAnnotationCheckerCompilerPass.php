@@ -25,11 +25,11 @@ class SecurityAnnotationCheckerCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(AnnotationDriver::class)) {
+        if (!$container->hasDefinition('oauth2_server.security_annotation_driver')) {
             return;
         }
 
-        $definition = $container->getDefinition(AnnotationDriver::class);
+        $definition = $container->getDefinition('oauth2_server.security_annotation_driver');
         $taggedServices = $container->findTaggedServiceIds('oauth2_server.security.annotation_checker');
         foreach ($taggedServices as $id => $attributes) {
             $definition->addMethodCall('addChecker', [new Reference($id)]);

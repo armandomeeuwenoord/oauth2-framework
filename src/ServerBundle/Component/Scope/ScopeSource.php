@@ -40,25 +40,23 @@ class ScopeSource implements Component
             return;
         }
 
-        $container->setAlias('oauth2_server.scope.repository', $configs['scope']['repository']);
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/scope'));
-        $loader->load('scope.php');
-
+//        $container->setAlias('oauth2_server.scope.repository', $configs['scope']['repository']);
+//        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/scope'));
+//        $loader->load('scope.php');
+//
         if (!$configs['scope']['policy']['enabled']) {
-            $container->setParameter('oauth2_server.scope.policy.by_default', 'none');
+//            $container->setParameter('oauth2_server.scope.policy.by_default', 'none');
 
             return;
         }
 
-        $container->setParameter('oauth2_server.scope.policy.by_default', $configs['scope']['policy']['by_default']);
-        $loader->load('policy.php');
+//        $container->setParameter('oauth2_server.scope.policy.by_default', $configs['scope']['policy']['by_default']);
 
         if ($configs['scope']['policy']['default']['enabled']) {
-            $container->setParameter('oauth2_server.scope.policy.default.scope', $configs['scope']['policy']['default']['scope']);
-            $loader->load('policy_default.php');
-        }
-        if ($configs['scope']['policy']['error']['enabled']) {
-            $loader->load('policy_error.php');
+//            $container->setParameter('oauth2_server.scope.policy.default.scope', $configs['scope']['policy']['default']['scope']);
+//            $loader->load('policy_default.php');
+//        if ($configs['scope']['policy']['error']['enabled']) {
+//            $loader->load('policy_error.php');
         }
     }
 

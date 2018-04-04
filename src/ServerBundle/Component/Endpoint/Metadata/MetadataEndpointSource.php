@@ -61,9 +61,6 @@ class MetadataEndpointSource implements Component
         $container->setParameter('oauth2_server.endpoint.metadata.path', $config['path']);
         $container->setParameter('oauth2_server.endpoint.metadata.host', $config['host']);
 
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/endpoint/metadata'));
-        $loader->load('metadata.php');
-
         foreach ($this->subComponents as $subComponent) {
             $subComponent->load($configs, $container);
         }

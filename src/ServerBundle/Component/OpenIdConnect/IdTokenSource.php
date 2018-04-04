@@ -147,8 +147,10 @@ class IdTokenSource implements Component
             return [];
         }
 
-        ConfigurationHelper::addJWSBuilder($container, $this->name(), $config['signature_algorithms'], false);
-        ConfigurationHelper::addJWSLoader($container, $this->name(), ['jws_compact'], $config['signature_algorithms'], [], false);
+        var_dump($config['signature_algorithms']);
+
+        ConfigurationHelper::addJWSBuilder($container, $this->name(), $config['signature_algorithms'], true);
+        ConfigurationHelper::addJWSLoader($container, $this->name(), ['jws_compact'], $config['signature_algorithms'], [], true);
 
 //        Assertion::keyExists($bundleConfig['key_set'], 'signature', 'The signature key set must be enabled.');
         ConfigurationHelper::addKeyset($container, 'id_token.key_set.signature', 'jwkset', ['value' => $bundleConfig['key_set']['signature']]);

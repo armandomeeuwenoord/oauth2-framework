@@ -43,9 +43,6 @@ class ClientConfigurationSource implements Component
         $container->setParameter('oauth2_server.endpoint.client_configuration.path', $config['path']);
         $container->setParameter('oauth2_server.endpoint.client_configuration.host', $config['host']);
         $container->setParameter('oauth2_server.endpoint.client_configuration.realm', $config['realm']);
-
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/endpoint/client_configuration'));
-        $loader->load('client_configuration.php');
     }
 
     /**

@@ -22,6 +22,7 @@ use OAuth2Framework\ServerBundle\Component\Endpoint\Authorization\Compiler\Respo
 use OAuth2Framework\ServerBundle\Component\Endpoint\Authorization\Compiler\ResponseTypeCompilerPass;
 use OAuth2Framework\ServerBundle\Component\Endpoint\Authorization\Compiler\TemplatePathCompilerPass;
 use OAuth2Framework\ServerBundle\Component\Endpoint\Authorization\Compiler\RequestObjectCompilerPass;
+use OAuth2Framework\ServerBundle\Component\Endpoint\Authorization\Compiler\UserAccountDiscoveryCompilerPass;
 use OAuth2Framework\Component\AuthorizationEndpoint\ConsentScreen\Extension;
 use OAuth2Framework\Component\AuthorizationEndpoint\ParameterChecker\ParameterChecker;
 use OAuth2Framework\Component\AuthorizationEndpoint\ResponseMode\ResponseMode;
@@ -65,19 +66,17 @@ class AuthorizationEndpointSource implements Component
     {
         $config = $configs['endpoint']['authorization'];
         $container->setParameter('oauth2_server.endpoint.authorization.enabled', $config['enabled']);
-        if (!$config['enabled']) {
-            return;
-        }
+//        var_dump($config['enabled']);
+//        if (!$config['enabled']) {
+//            return;
+//        }
+
 
         $container->registerForAutoconfiguration(ResponseType::class)->addTag('oauth2_server_response_type');
         $container->registerForAutoconfiguration(ResponseMode::class)->addTag('oauth2_server_response_mode');
         $container->registerForAutoconfiguration(ParameterChecker::class)->addTag('oauth2_server_authorization_parameter_checker');
         $container->registerForAutoconfiguration(UserAccountDiscovery::class)->addTag('oauth2_server_user_account_discovery');
         $container->registerForAutoconfiguration(Extension::class)->addTag('oauth2_server_consent_screen_extension');
-
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/endpoint/authorization'));
-        $loader->load('authorization.php');
-        $loader->load('user_account_discovery.php');
 
         $container->setParameter('oauth2_server.endpoint.authorization.path', $config['path']);
         $container->setParameter('oauth2_server.endpoint.authorization.host', $config['host']);
@@ -173,6 +172,7 @@ class AuthorizationEndpointSource implements Component
         $container->addCompilerPass(new ResponseModeCompilerPass());
         $container->addCompilerPass(new ResponseTypeCompilerPass());
         $container->addCompilerPass(new TemplatePathCompilerPass());
+        $container->addCompilerPass(new UserAccountDiscoveryCompilerPass());
 
         foreach ($this->subComponents as $component) {
             $component->build($container);

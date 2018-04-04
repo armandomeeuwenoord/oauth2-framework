@@ -32,7 +32,7 @@ class ClientRegistrationEndpointRouteCompilerPass implements CompilerPassInterfa
 
         $path = $container->getParameter('oauth2_server.endpoint.client_registration.path');
         $host = $container->getParameter('oauth2_server.endpoint.client_registration.host');
-        $route_loader = $container->getDefinition(RouteLoader::class);
+        $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
             'client_registration',
             'client_registration_endpoint_pipe',

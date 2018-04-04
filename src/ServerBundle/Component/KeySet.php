@@ -17,7 +17,7 @@ use Jose\Bundle\JoseFramework\Helper\ConfigurationHelper;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class KeySet implements Component
+class   KeySet implements Component
 {
     /**
      * {@inheritdoc}

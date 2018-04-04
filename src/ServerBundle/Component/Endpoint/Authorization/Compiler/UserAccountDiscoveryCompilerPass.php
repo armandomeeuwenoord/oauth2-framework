@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace OAuth2Framework\ServerBundle\DependencyInjection\Compiler;
+namespace OAuth2Framework\ServerBundle\Component\Endpoint\Authorization\Compiler;
 
 use OAuth2Framework\Component\AuthorizationEndpoint\UserAccountDiscovery\UserAccountDiscoveryManager;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -25,11 +25,11 @@ class UserAccountDiscoveryCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(UserAccountDiscoveryManager::class)) {
+        if (!$container->hasDefinition('oauth2_server.user_account.discovery_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition(UserAccountDiscoveryManager::class);
+        $definition = $container->getDefinition('oauth2_server.user_account.discovery_manager');
 
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_user_account_discovery');
         foreach ($taggedServices as $id => $attributes) {

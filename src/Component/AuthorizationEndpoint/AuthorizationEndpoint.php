@@ -79,24 +79,29 @@ abstract class AuthorizationEndpoint implements MiddlewareInterface
             $authorization = $this->userAccountDiscoveryManager->find($authorization);
             $this->userAccountDiscoveryManager->check($authorization);
 
+
             if (null === $authorization->getUserAccount()) {
                 return $this->redirectToLoginPage($authorization, $request);
             }
 
-            var_dump('hallo');
             $authorization = $this->consentScreenExtensionManager->processBefore($request, $authorization);
-
-            var_dump('hallo');
 
             return $this->processConsentScreen($request, $authorization);
         } catch (OAuth2AuthorizationException $e) {
+//            var_dump($e->getMessage());
             $data = $e->getData();
+
+            var_dump('ik ben hier');
+            var_dump($data);
+
             if (null !== $e->getAuthorization()) {
                 $redirectUri = $e->getAuthorization()->getRedirectUri();
                 $responseMode = $e->getAuthorization()->getResponseMode();
                 if (null !== $redirectUri && null !== $responseMode) {
                     $data['redirect_uri'] = $redirectUri;
                     $data['response_mode'] = $responseMode;
+
+                    var_dump($data);
 
                     throw new OAuth2AuthorizationException(302, $data, $e->getAuthorization(), $e);
                 }
@@ -106,23 +111,33 @@ abstract class AuthorizationEndpoint implements MiddlewareInterface
         } catch (Exception\ProcessAuthorizationException $e) {
             $authorization = $e->getAuthorization();
             $authorization = $this->consentScreenExtensionManager->processAfter($request, $authorization);
+
             if (false === $authorization->isAuthorized()) {
+                var_dump('asdasd2222');
                 $this->throwRedirectionException($authorization, OAuth2Exception::ERROR_ACCESS_DENIED, 'The resource owner denied access to your client.');
             }
 
+            var_dump($authorization->getTokenType());
+            
             try {
                 $responseType = $authorization->getResponseType();
                 $authorization = $responseType->process($authorization);
             } catch (OAuth2Exception $e) {
+                var_dump($e->getMessage());
                 $this->throwRedirectionException($authorization, $e->getData()['error'], $e->getData()['error_description']);
+            } catch (\Exception $e) {
+                var_dump($e->getMessage());
             }
+
 
             return $this->buildResponse($authorization);
         } catch (Exception\CreateRedirectionException $e) {
+            var_dump($e->getMessage());
             $this->throwRedirectionException($e->getAuthorization(), $e->getMessage(), $e->getDescription());
         } catch (Exception\ShowConsentScreenException $e) {
             return $this->processConsentScreen($request, $e->getAuthorization());
         } catch (Exception\RedirectToLoginPageException $e) {
+            var_dump('ik ben hier');
             return $this->redirectToLoginPage($e->getAuthorization(), $request);
         }
     }

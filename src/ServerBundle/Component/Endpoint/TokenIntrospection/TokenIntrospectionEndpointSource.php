@@ -45,9 +45,6 @@ class TokenIntrospectionEndpointSource implements Component
         $container->registerForAutoconfiguration(TokenTypeHint::class)->addTag('oauth2_server_introspection_type_hint');
         $container->setParameter('oauth2_server.endpoint.token_introspection.path', $config['path']);
         $container->setParameter('oauth2_server.endpoint.token_introspection.host', $config['host']);
-
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/endpoint/token_introspection'));
-        $loader->load('introspection.php');
     }
 
     /**

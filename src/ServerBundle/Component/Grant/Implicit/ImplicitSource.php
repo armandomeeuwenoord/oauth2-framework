@@ -35,8 +35,8 @@ class ImplicitSource implements Component
     public function load(array $configs, ContainerBuilder $container)
     {
         if ($configs['grant']['implicit']['enabled']) {
-            $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/grant'));
-            $loader->load('implicit.php');
+//            $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/grant'));
+//            $loader->load('implicit.php');
         }
     }
 

@@ -33,8 +33,6 @@ class FormPostResponseModeSource implements Component
             return;
         }
         $container->setParameter('oauth2_server.endpoint.authorization.response_mode.form_post.template', $config['template']);
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/endpoint/authorization'));
-        $loader->load('form_post_response_mode.php');
     }
 
     /**
@@ -56,7 +54,7 @@ class FormPostResponseModeSource implements Component
                 ->children()
                     ->scalarNode('template')
                         ->info('The template used to render the form.')
-                        ->defaultValue('@OAuth2FrameworkServerBundle/form_post/response.html.twig')
+                        ->defaultValue('OAuth2FrameworkServerBundle::form_post/response.html.twig')
                     ->end()
                 ->end()
             ->end()

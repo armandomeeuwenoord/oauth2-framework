@@ -32,8 +32,8 @@ class UserAccountSource implements Component
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $container->setAlias('oauth2_server.user_account_repository', $configs['user_account']['repository']);
-        $container->setAlias('oauth2_server.user_account_manager', $configs['user_account']['manager']);
+//        $container->setAlias('oauth2_server.user_account_repository', $configs['user_account']['repository']);
+//        $container->setAlias('oauth2_server.user_account_manager', $configs['user_account']['manager']);
     }
 
     /**

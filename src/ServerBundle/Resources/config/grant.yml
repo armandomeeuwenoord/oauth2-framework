@@ -1,0 +1,78 @@
+services:
+    oauth2_server.grant.type_manager:
+        class: OAuth2Framework\Component\TokenEndpoint\GrantTypeManager
+
+    oauth2_server.grant.type_rule:
+        class: OAuth2Framework\Component\TokenEndpoint\Rule\GrantTypesRule
+
+    oauth2_server.grant.authorization_code.grant_type:
+        class: OAuth2Framework\Component\AuthorizationCodeGrant\AuthorizationCodeGrantType
+        arguments:
+            - '@oauth2_server.grant.authorization_code.repository'
+            - '@oauth2_server.pkce_method.manager'
+
+    oauth2_server.grant.authorization_code.response_type:
+        class: OAuth2Framework\Component\AuthorizationCodeGrant\AuthorizationCodeResponseType
+        arguments:
+            - '@oauth2_server.grant.authorization_code.repository'
+            - '%oauth2_server.grant.authorization_code.min_length%'
+            - '%oauth2_server.grant.authorization_code.max_length%'
+            - '%oauth2_server.grant.authorization_code.lifetime%'
+            - '@oauth2_server.pkce_method.manager'
+            - '%oauth2_server.grant.authorization_code.enforce_pkce%'
+        tags:
+            - { name: oauth2_server_response_type }
+
+    oauth2_server.grant.authorization_code.type_hint:
+        class: OAuth2Framework\Component\AuthorizationCodeGrant\AuthorizationCodeTypeHint
+        arguments:
+            - '@oauth2_server.grant.authorization_code.repository'
+
+
+    oauth2_server.grant.client_credentials.grant_type:
+        class: OAuth2Framework\Component\ClientCredentialsGrant\ClientCredentialsGrantType
+        arguments:
+            - '@oauth2_server.grant.authorization_code.repository'
+
+    oauth2_server.grant.implicit.grant_type:
+        class: OAuth2Framework\Component\ImplicitGrant\ImplicitGrantType
+        arguments:
+            - '@oauth2_server.grant.authorization_code.repository'
+
+
+    oauth2_server.grant.implicit.response_type:
+        class: OAuth2Framework\Component\ImplicitGrant\TokenResponseType
+        arguments:
+            - '@oauth2_server.access_token.repository'
+            - '@oauth2_server.access_token.id_generator'
+            - '%oauth2_server.access_token.lifetime%'
+
+    oauth2_server.grant.jwt_bearer.grant_type:
+        class: OAuth2Framework\Component\JwtBearerGrant\JwtBearerGrantType
+        arguments:
+            - '@jose.jws_verifier.oauth2_server.grant.jwt_bearer'
+            - '@jose.header_checker.oauth2_server.grant.jwt_bearer'
+            - '@jose.claim_checker.oauth2_server.grant.jwt_bearer'
+            - '@oauth2_server.client.repository'
+            - '@oauth2_server.user_account.repository'
+
+    oauth2_server.grant.none.grant_type:
+        class: OAuth2Framework\Component\NoneGrant\NoneResponseType
+        arguments:
+            - '@?oauth2_server.grant.none.authorization_storage'
+
+    oauth2_server.grant.refresh_token.grant_type:
+        class: OAuth2Framework\Component\RefreshTokenGrant\RefreshTokenGrantType
+        arguments:
+            - '@oauth2_server.grant.refresh_token.repository'
+
+    oauth2_server.grant.refresh_token.type_hint:
+        class: OAuth2Framework\Component\RefreshTokenGrant\RefreshTokenTypeHint
+        arguments:
+            - '@oauth2_server.grant.refresh_token.repository'
+
+    oauth2_server.grant.resource_owner_password_credentials.grant_type:
+        class: OAuth2Framework\Component\ResourceOwnerPasswordCredentialsGrant\ResourceOwnerPasswordCredentialsGrantType
+        arguments:
+            - '@oauth2_server.access_token.repository'
+            - '@oauth2_server.user_account.repository'

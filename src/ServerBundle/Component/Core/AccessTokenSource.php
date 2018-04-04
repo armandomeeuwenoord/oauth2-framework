@@ -35,12 +35,9 @@ class AccessTokenSource implements Component
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/core'));
-        $loader->load('access_token.php');
-
-        $container->setParameter('oauth2_server.grant.access_token.repository', $configs['access_token']['repository']);
-        $container->setParameter('oauth2_server.grant.access_token.id_generator', $configs['access_token']['id_generator']);
-        $container->setParameter('oauth2_server.grant.access_token.lifetime', $configs['access_token']['lifetime']);
+//        $container->setParameter('oauth2_server.grant.access_token.repository', $configs['access_token']['repository']);
+//        $container->setParameter('oauth2_server.grant.access_token.id_generator', $configs['access_token']['id_generator']);
+//        $container->setParameter('oauth2_server.grant.access_token.lifetime', $configs['access_token']['lifetime']);
     }
 
     /**

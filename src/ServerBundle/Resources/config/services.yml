@@ -1,0 +1,168 @@
+services:
+    oauth2_server.middleware.form_post_body:
+        class: OAuth2Framework\Component\Middlewar
+
+    oauth2_server.pkce_method.plain:
+        class: OAuth2Framework\Component\AuthorizationCodeGrant\PKCEMethod\Plain
+        tags:
+            - { name: oauth2_server_pkce_method, alias: 'plain' }
+
+    oauth2_server.pkce_method.s256:
+        class: OAuth2Framework\Component\AuthorizationCodeGrant\PKCEMethod\S256
+        tags:
+            - { name: oauth2_server_pkce_method, alias: 's256' }
+
+    oauth2_server.pkce_method.manager:
+        class: OAuth2Framework\Component\AuthorizationCodeGrant\PKCEMethod\PKCEMethodManager
+
+    oauth2_server.resource_server.authentication_method_manager:
+        class: OAuth2Framework\Component\ResourceServerAuthentication\AuthenticationMethodManager
+
+    oauth2_server.resource_server.authentication_middleware:
+        class: OAuth2Framework\Component\ResourceServerAuthentication\AuthenticationMiddleware
+        arguments:
+            - '@oauth2_server.resource_server_repository'
+            - '@oauth2_server.resource_server.authentication_method_manager'
+
+    oauth2_server.metadata_endpoint_pipe:
+        class: OAuth2Framework\Component\Middleware\Pipe
+        arguments:
+            - '@oauth2_server.metadata_controller'
+        tags:
+            - { name: controller.service_arguments }
+
+    oauth2_server.metadata_controller:
+        class: OAuth2Framework\ServerBundle\Controller\MetadataController
+        arguments:
+            - '@httplug.message_factory'
+            - '@oauth2_server.metadata_builder'
+
+    oauth2_server.metadata_builder:
+        class: OAuth2Framework\ServerBundle\Service\MetadataBuilder
+        arguments:
+            - '@router'
+
+    oauth2_server.session_management_pipe:
+        class: OAuth2Framework\Component\Middleware\Pipe
+        arguments:
+            - '@router'
+
+    oauth2_server.user_info_endpoint_pipe:
+        class: OAuth2Framework\Component\Middleware\Pipe
+        arguments:
+            - '@oauth2_server.oauth2_response_middleware'
+            - '@oauth2_server.middleware.form_post_body'
+            - '@oauth2_server.openid_connect.user_info_security_middleware'
+            - '@oauth2_server.openid_connect.user_info_endpoint'
+        tags:
+            - { name: controller.service_arguments }
+
+    oauth2_server.session_management_iframe_endpoint:
+        class: OAuth2Framework\ServerBundle\Service\IFrameEndpoint
+        arguments:
+            - '@templating'
+            - '@httplug.message_factory'
+            - '%oauth2_server.endpoint.session_management.template%'
+            - '%oauth2_server.endpoint.session_management.storage_name%'
+
+    oauth2_server.session_management_session_state_parameter_extension:
+        class: OAuth2Framework\ServerBundle\Service\SessionStateParameterExtension
+        arguments:
+            - '@session'
+            - '%oauth2_server.endpoint.session_management.storage_name%'
+        tags:
+            - { name: oauth2_server_after_consent_screen }
+
+    oauth2_server.token_endpoint_pipe:
+        class: OAuth2Framework\Component\Middleware\Pipe
+        arguments:
+            - '@oauth2_server.oauth2_response_middleware'
+            - '@oauth2_server.client_authentication_middleware'
+            - '@oauth2_server.token_endpoint_grant_type_middleware'
+            - '@oauth2_server.token_endpoint_token_type_middleware'
+            - '@oauth2_server.token_endpoint_token_endpoint'
+        tags:
+            - { name: controller.service_arguments }
+
+    oauth2_server.token_endpoint_token_type_middleware:
+        class: OAuth2Framework\Component\TokenType\TokenTypeMiddleware
+
+    oauth2_server.token_endpoint_grant_type_middleware:
+        class: OAuth2Framework\Component\TokenEndpoint\GrantTypeMiddleware
+        arguments:
+            - '@oauth2_server.token_endpoint_grant_type_manager'
+
+    oauth2_server.token_endpoint_grant_type_manager:
+        class: OAuth2Framework\Component\TokenEndpoint\GrantTypeManager
+
+    oauth2_server.token_endpoint_token_endpoint_extension_manager:
+        class: OAuth2Framework\Component\TokenEndpoint\Extension\TokenEndpointExtensionManager
+
+    oauth2_server.token_endpoint_token_endpoint:
+        class: OAuth2Framework\Component\TokenEndpoint\Extension\TokenEndpointExtensionManager
+        arguments:
+            - '@oauth2_server.client.repository'
+            - '@oauth2_server.user_account.repository'
+            - '@oauth2_server.token_endpoint_token_endpoint_extension_manager'
+            - '@httplug.message_factory'
+            - '@oauth2_server.access_token.repository'
+            - '@oauth2_server.access_token.id_generator'
+            - '%oauth2_server.access_token.lifetime%'
+
+    oauth2_server.access_token_handler:
+        class: OnlineVoicemail\Api\RestBundle\Service\AccessTokenHandler
+        arguments:
+            - '@oauth2_server.access_token.repository'
+
+    oauth2_server.access_token_handler_manager:
+        class: OAuth2Framework\Component\Core\AccessToken\AccessTokenHandlerManager
+        arguments:
+            - '@oauth2_server.access_token_handler'
+
+    oauth2_server.security_oauth2_provider:
+        class: OAuth2Framework\ServerBundle\Security\Authentication\Provider\OAuth2Provider
+        arguments:
+            - '@oauth2_server.access_token_handler'
+
+    oauth2_server.security_oauth2_listener:
+        class: OAuth2Framework\ServerBundle\Security\Firewall\OAuth2Listener
+        arguments:
+            - '@security.token_storage'
+            - '@security.authentication.manager'
+            - '@oauth2_server.security_token_type_manager'
+            - '@oauth2_server.access_token_handler_manager'
+            - '@oauth2_server.oauth2_response_factory_manager'
+
+    oauth2_server.security_oauth2_entrypoint:
+        class: OAuth2Framework\ServerBundle\Security\EntryPoint\OAuth2EntryPoint
+        arguments:
+            - '@httplug.message_factory'
+
+    oauth2_server.security_annotation_driver:
+        class: OAuth2Framework\ServerBundle\Annotation\AnnotationDriver
+        arguments:
+            - '@annotations.cached_reader'
+            - '@security.token_storage'
+            - '@oauth2_server.security_token_type_manager'
+            - '@oauth2_server.oauth2_response_factory_manager'
+        autowire: true
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    oauth2_server.security_token_type_manager:
+        class: OAuth2Framework\Component\TokenType\TokenTypeManager
+
+    oauth2_server.security_client_id_checker:
+        class: OAuth2Framework\ServerBundle\Annotation\Checker\ClientIdChecker
+        tags:
+            - { name: oauth2_server.security.annotation_checker }
+
+    oauth2_server.security_resource_owner_id_checker:
+        class: OAuth2Framework\ServerBundle\Annotation\Checker\ResourceOwnerIdChecker
+        tags:
+            - { name: oauth2_server.security.annotation_checker }
+
+    oauth2_server.security_scope_checker:
+        class: OAuth2Framework\ServerBundle\Annotation\Checker\ScopeChecker
+        tags:
+            - { name: oauth2_server.security.annotation_checker }

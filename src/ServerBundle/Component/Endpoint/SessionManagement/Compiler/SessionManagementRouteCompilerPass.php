@@ -31,7 +31,7 @@ class SessionManagementRouteCompilerPass implements CompilerPassInterface
 
         $path = $container->getParameter('oauth2_server.endpoint.session_management.path');
         $host = $container->getParameter('oauth2_server.endpoint.session_management.host');
-        $route_loader = $container->getDefinition(RouteLoader::class);
+        $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
             'openid_connect_iframe_endpoint',
             'session_management_pipe',
@@ -46,10 +46,10 @@ class SessionManagementRouteCompilerPass implements CompilerPassInterface
             '', // condition
         ]);
 
-        if (!$container->hasDefinition(MetadataBuilder::class)) {
+        if (!$container->hasDefinition('oauth2_server.metadata_builder')) {
             return;
         }
-        $medata = $container->getDefinition(MetadataBuilder::class);
+        $medata = $container->getDefinition('oauth2_server.metadata_builder');
         $medata->addMethodCall('addRoute', ['check_session_iframe', 'oauth2_server_openid_connect_iframe_endpoint']);
     }
 }

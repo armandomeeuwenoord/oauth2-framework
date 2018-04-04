@@ -37,9 +37,6 @@ class OAuth2ResponseSource implements Component
     public function load(array $configs, ContainerBuilder $container)
     {
         $container->registerForAutoconfiguration(ResponseFactory::class)->addTag('oauth2_server_response_factory');
-
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/core'));
-        $loader->load('oauth2_response.php');
     }
 
     /**

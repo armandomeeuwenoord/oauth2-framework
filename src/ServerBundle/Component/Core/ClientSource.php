@@ -35,9 +35,6 @@ class ClientSource implements Component
     public function load(array $configs, ContainerBuilder $container)
     {
         $container->setParameter('oauth2_server.client_repository', $configs['client']['repository']);
-
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/core'));
-        $loader->load('client.php');
     }
 
     /**

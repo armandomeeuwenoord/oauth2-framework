@@ -27,22 +27,24 @@ class OAuth2SecurityFactory implements SecurityFactoryInterface
 {
     public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
     {
+
+        $definitionDecorator = 'Symfony\\Component\\DependencyInjection\\DefinitionDecorator';
+        $childDefinition = 'Symfony\\Component\\DependencyInjection\\ChildDefinition';
+        $definitionClass = $childDefinition;
+        if (class_exists($definitionDecorator)) {
+            $definitionClass = $definitionDecorator;
+        }
+
         $providerId = 'security.authentication.provider.oauth2.'.$id;
         $container
-            ->setDefinition($providerId, new ChildDefinition(OAuth2Provider::class))
-            ->setAutowired(true)
+            ->setDefinition($providerId, new $definitionClass('oauth2_server.security_oauth2_provider'))
+//            ->replaceArgument(0, new Reference($userProvider))
         ;
 
         $listenerId = 'security.authentication.listener.oauth2.'.$id;
-        $listener = $container
-            ->setDefinition($listenerId, new ChildDefinition(OAuth2Listener::class))
-            ->setArguments([
-                new Reference(TokenStorageInterface::class),
-                new Reference('security.authentication.manager'),
-            ])
-        ;
+        $container->setDefinition($listenerId, new $definitionClass('oauth2_server.security_oauth2_listener'));
 
-        return array($providerId, $listenerId, OAuth2EntryPoint::class);
+        return array($providerId, $listenerId, 'oauth2_server.security_oauth2_entrypoint');
     }
 
     /**

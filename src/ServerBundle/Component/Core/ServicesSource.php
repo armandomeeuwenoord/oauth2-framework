@@ -35,9 +35,6 @@ class ServicesSource implements Component
     public function load(array $configs, ContainerBuilder $container)
     {
         $container->setParameter('oauth2_server.server_uri', $configs['server_uri']);
-
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/core'));
-        $loader->load('services.php');
     }
 
     /**

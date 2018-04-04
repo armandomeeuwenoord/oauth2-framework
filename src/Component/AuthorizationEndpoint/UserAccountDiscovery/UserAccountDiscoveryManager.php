@@ -40,6 +40,7 @@ class UserAccountDiscoveryManager
      */
     public function find(Authorization $authorization): Authorization
     {
+        
         $userAccount = null;
         $isFullyAuthenticated = null;
         foreach ($this->extensions as $extension) {
@@ -50,7 +51,7 @@ class UserAccountDiscoveryManager
                     $userAccount = $tmpUserAccount;
                     $isFullyAuthenticated = $tmpIsFullyAuthenticated;
                 } else {
-                    if ($tmpUserAccount->getPublicId()->getValue() !== $userAccount->getPublicId()->getValue()) {
+                    if ($tmpUserAccount->getId() !== $userAccount->getId()) {
                         throw new RedirectToLoginPageException($authorization);
                     }
                     if (true === $tmpIsFullyAuthenticated) {
@@ -73,7 +74,7 @@ class UserAccountDiscoveryManager
     public function check(Authorization $authorization)
     {
         foreach ($this->extensions as $extension) {
-            $authorization = $extension->check($authorization);
+            $extension->check($authorization);
         }
     }
 }

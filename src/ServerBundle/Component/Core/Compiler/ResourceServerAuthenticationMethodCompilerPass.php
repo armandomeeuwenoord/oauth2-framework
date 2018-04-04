@@ -25,11 +25,11 @@ class ResourceServerAuthenticationMethodCompilerPass implements CompilerPassInte
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(AuthenticationMethodManager::class)) {
+        if (!$container->hasDefinition('oauth2_server.client_authentication_method_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition(AuthenticationMethodManager::class);
+        $definition = $container->getDefinition('oauth2_server.client_authentication_method_manager');
         $taggedServices = $container->findTaggedServiceIds('resource_server_authentication_method');
         foreach ($taggedServices as $id => $attributes) {
             $definition->addMethodCall('add', [new Reference($id)]);

@@ -25,11 +25,11 @@ class ConsentScreenExtensionCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(ExtensionManager::class)) {
+        if (!$container->hasDefinition('oauth2_server.endpoint.authorization_consentscreen_extension_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition(ExtensionManager::class);
+        $definition = $container->getDefinition('oauth2_server.endpoint.authorization_consentscreen_extension_manager');
 
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_consent_screen_extension');
         foreach ($taggedServices as $id => $attributes) {

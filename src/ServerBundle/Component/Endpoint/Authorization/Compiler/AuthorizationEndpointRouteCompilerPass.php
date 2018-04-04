@@ -25,16 +25,16 @@ class AuthorizationEndpointRouteCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('authorization_endpoint_pipe')) {
+        if (!$container->has('oauth2_server.endpoint.authorization_endpoint_pipe')) {
             return;
         }
 
         $path = $container->getParameter('oauth2_server.endpoint.authorization.path');
         $host = $container->getParameter('oauth2_server.endpoint.authorization.host');
-        $route_loader = $container->getDefinition(RouteLoader::class);
+        $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
-            'authorization_endpoint',
-            'authorization_endpoint_pipe',
+            'oauth2_server.endpoint.authorization_endpoint',
+            'oauth2_server.endpoint.authorization_endpoint_pipe',
             'dispatch',
             $path, // path
             [], // defaults

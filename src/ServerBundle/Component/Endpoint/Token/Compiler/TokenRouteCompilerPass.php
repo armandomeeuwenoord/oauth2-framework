@@ -31,7 +31,7 @@ class TokenRouteCompilerPass implements CompilerPassInterface
 
         $path = $container->getParameter('oauth2_server.endpoint.token.path');
         $host = $container->getParameter('oauth2_server.endpoint.token.host');
-        $route_loader = $container->getDefinition(RouteLoader::class);
+        $route_loader = $container->getDefinition('oauth2_server.services_route_loader');
         $route_loader->addMethodCall('addRoute', [
             'token_endpoint',
             'token_endpoint_pipe',

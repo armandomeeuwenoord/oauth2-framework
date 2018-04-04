@@ -25,14 +25,14 @@ class ResponseFactoryCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(OAuth2ResponseFactoryManager::class)) {
+        if (!$container->hasDefinition('oauth2_server.oauth2_response_factory_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition(OAuth2ResponseFactoryManager::class);
+        $definition = $container->getDefinition('oauth2_server.oauth2_response_factory_manager');
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_response_factory');
         foreach ($taggedServices as $id => $attributes) {
-            $definition->addMethodCall('addResponseFactory', [new Reference($id)]);
+            $definition->addMethodCall('addResponseFactory', [$container->getDefinition($id)]);
         }
     }
 }

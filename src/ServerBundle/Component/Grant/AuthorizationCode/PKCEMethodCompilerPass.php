@@ -26,11 +26,11 @@ class PKCEMethodCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(PKCEMethodManager::class)) {
+        if (!$container->hasDefinition('oauth2_server.pkce_method.manager')) {
             return;
         }
 
-        $definition = $container->getDefinition(PKCEMethodManager::class);
+        $definition = $container->getDefinition('oauth2_server.pkce_method.manager');
 
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_pkce_method');
         $loaded = [];
@@ -44,11 +44,11 @@ class PKCEMethodCompilerPass implements CompilerPassInterface
             }
         }
 
-        if (!$container->hasDefinition(MetadataBuilder::class)) {
+        if (!$container->hasDefinition('oauth2_server.metadata_builder')) {
             return;
         }
 
-        $definition = $container->getDefinition(MetadataBuilder::class);
-        $definition->addMethodCall('setCodeChallengeMethodsSupported', [new Reference(PKCEMethodManager::class)]);
+        $definition = $container->getDefinition('oauth2_server.metadata_builder');
+        $definition->addMethodCall('setCodeChallengeMethodsSupported', [new Reference('oauth2_server.pkce_method.manager')]);
     }
 }

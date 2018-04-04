@@ -41,9 +41,6 @@ class AuthorizationCodeSource implements Component
             $container->setParameter('oauth2_server.grant.authorization_code.lifetime', $configs['grant']['authorization_code']['lifetime']);
             $container->setParameter('oauth2_server.grant.authorization_code.enforce_pkce', $configs['grant']['authorization_code']['enforce_pkce']);
             $container->setParameter('oauth2_server.grant.authorization_code.repository', $configs['grant']['authorization_code']['repository']);
-
-            $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/grant'));
-            $loader->load('authorization_code.php');
         }
     }
 

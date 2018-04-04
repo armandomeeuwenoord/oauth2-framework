@@ -13,12 +13,14 @@ declare(strict_types=1);
 
 namespace OAuth2Framework\Component\Core\ResourceOwner;
 
+use OAuth2Framework\Component\Core\Client\ClientId;
+
 interface ResourceOwner
 {
     /**
      * @return ResourceOwnerId
      */
-    public function getPublicId(): ResourceOwnerId;
+    public function getPublicId();
 
     /**
      * @param string $key

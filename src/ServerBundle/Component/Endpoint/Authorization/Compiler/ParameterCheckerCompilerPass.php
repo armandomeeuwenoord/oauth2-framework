@@ -25,14 +25,15 @@ class ParameterCheckerCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(ParameterCheckerManager::class)) {
+        if (!$container->hasDefinition('oauth2_server.endpoint.authorization_parameter_checker')) {
             return;
         }
 
-        $definition = $container->getDefinition(ParameterCheckerManager::class);
+        $definition = $container->getDefinition('oauth2_server.endpoint.authorization_parameter_checker');
 
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_authorization_parameter_checker');
         foreach ($taggedServices as $id => $attributes) {
+            var_dump($id);
             $definition->addMethodCall('add', [new Reference($id)]);
         }
     }

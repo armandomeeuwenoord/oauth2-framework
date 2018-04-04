@@ -26,15 +26,17 @@ class IdTokenMetadataCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(MetadataBuilder::class) || !$container->hasDefinition(UserInfo::class)) {
+        if (!$container->hasDefinition('oauth2_server.metadata_builder') || !$container->hasDefinition('oauth2_server.openid_connect.user_info')) {
             return;
         }
-        $metadata = $container->getDefinition(MetadataBuilder::class);
+        $metadata = $container->getDefinition('oauth2_server.metadata_builder');
 
-        $metadata->addMethodCall('setUserinfo', [new Reference(UserInfo::class)]);
+        $metadata->addMethodCall('setUserinfo', [new Reference('oauth2_server.openid_connect.user_info')]);
         $metadata->addMethodCall('addKeyValuePair', ['claim_types_supported', ['normal', 'aggregated', 'distributed']]);
         $metadata->addMethodCall('addKeyValuePair', ['claims_parameter_supported', true]);
         $metadata->addMethodCall('addKeyValuePair', ['id_token_signing_alg_values_supported', $container->getParameter('oauth2_server.openid_connect.id_token.default_signature_algorithm')]);
+
+        var_dump($container->getParameter('oauth2_server.openid_connect.id_token.encryption.enabled'));
 
         if (true === $container->getParameter('oauth2_server.openid_connect.id_token.encryption.enabled')) {
             $metadata->addMethodCall('addKeyValuePair', ['id_token_encryption_alg_values_supported', $container->getParameter('oauth2_server.openid_connect.id_token.encryption.key_encryption_algorithms')]);

@@ -49,9 +49,6 @@ class TokenEndpointSource implements Component
         $container->registerForAutoconfiguration(TokenEndpointExtension::class)->addTag('oauth2_server_token_endpoint_extension');
         $container->setParameter('oauth2_server.endpoint.token.path', $config['path']);
         $container->setParameter('oauth2_server.endpoint.token.host', $config['host']);
-
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/endpoint/token'));
-        $loader->load('token.php');
     }
 
     /**

@@ -43,8 +43,8 @@ class ResponseModeSource implements Component
     {
         $config = $configs['endpoint']['authorization']['response_mode'];
         $container->setParameter('oauth2_server.endpoint.authorization.response_mode.allow_response_mode_parameter', $config['allow_response_mode_parameter']);
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/endpoint/authorization'));
-        $loader->load('response_mode.php');
+//        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/endpoint/authorization'));
+//        $loader->load('response_mode.php');
 
         foreach ($this->subComponents as $subComponent) {
             $subComponent->load($configs, $container);

@@ -1,0 +1,241 @@
+services:
+    oauth2_server.client_authentication_method_manager:
+        class: OAuth2Framework\Component\ClientAuthentication\AuthenticationMethodManager
+
+    oauth2_server.client_authentication_method_endpoint_rule:
+        class: OAuth2Framework\Component\ClientAuthentication\Rule\ClientAuthenticationMethodEndpointRule
+        arguments:
+            - '@oauth2_server.client_authentication_method_manager'
+
+    oauth2_server.client_authentication_middleware:
+        class: OAuth2Framework\Component\ClientAuthentication\ClientAuthenticationMiddleware
+        arguments:
+            - '@oauth2_server.client.repository'
+            - '@oauth2_server.client_authentication_method_manager'
+
+    oauth2_server.client_assertion_jwt:
+        class: OAuth2Framework\Component\ClientAuthentication\ClientAssertionJwt
+        arguments:
+            - '@jose.jws_verifier.client_authentication.client_assertion_jwt'
+            - '@jose.header_checker.client_authentication.client_assertion_jwt'
+            - '@jose.claim_checker.client_authentication.client_assertion_jwt'
+            - '%oauth2_server.client_authentication.client_assertion_jwt.secret_lifetime%'
+
+    oauth2_server.client_secret_basic:
+        class: OAuth2Framework\Component\ClientAuthentication\ClientSecretBasic
+        arguments:
+            - '%oauth2_server.client_authentication.client_secret_basic.realm%'
+            - '%oauth2_server.client_authentication.client_secret_basic.secret_lifetime%'
+
+    oauth2_server.client_secret_post:
+        class: OAuth2Framework\Component\ClientAuthentication\ClientSecretPost
+        arguments:
+            - '%oauth2_server.client_authentication.client_secret_post.secret_lifetime%'
+
+#    oauth2_server.client_rule
+
+    oauth2_server.access_token.id_generator:
+        class: '%oauth2_server.access_token.id_generator.class%'
+
+    oauth2_server.access_token_command_create:
+        class: OAuth2Framework\Component\Core\AccessToken\Command\CreateAccessTokenCommandHandler
+        arguments:
+            - '@oauth2_server.access_token.repository'
+
+    oauth2_server.access_token_command_revoke:
+        class: OAuth2Framework\Component\Core\AccessToken\Command\RevokeAccessTokenCommandHandler
+        arguments:
+            - '@oauth2_server.access_token.repository'
+
+    oauth2_server.client_command_create:
+        class: OAuth2Framework\Component\Core\Client\Command\CreateClientCommandHandler
+        arguments:
+            - '@oauth2_server.client.repository'
+
+    oauth2_server.client_command_update:
+        class: OAuth2Framework\Component\Core\Client\Command\UpdateClientCommandHandler
+        arguments:
+            - '@oauth2_server.client.repository'
+
+    oauth2_server.client_command_change:
+        class: OAuth2Framework\Component\Core\Client\Command\ChangeOwnerCommandHandler
+        arguments:
+            - '@oauth2_server.client.repository'
+
+    oauth2_server.client_command_delete:
+        class: OAuth2Framework\Component\Core\Client\Command\DeleteClientCommandHandler
+        arguments:
+            - '@oauth2_server.client.repository'
+
+    oauth2_server.oauth2_response_middleware:
+        class: OAuth2Framework\Component\Middleware\OAuth2ResponseMiddleware
+        arguments:
+            - '@oauth2_server.oauth2_response_factory_manager'
+
+    oauth2_server.services_route_loader:
+        class: OAuth2Framework\ServerBundle\Routing\RouteLoader
+        tags:
+            - { name: routing.loader }
+
+    oauth2_server.services_domain_converter:
+        class: OAuth2Framework\Component\Core\Domain\DomainConverter
+
+    oauth2_server.services_domain_uri_loader:
+        class: OAuth2Framework\Component\Core\Domain\DomainUriLoader
+
+    oauth2_server.endpoint.authorization_form:
+        class: '%oauth2_server.endpoint.authorization.form.class%'
+#        tags: [form.type]
+
+    oauth2_server.endpoint.authorization_form_factory:
+        class: OAuth2Framework\ServerBundle\Form\FormFactory
+        arguments:
+            - '@translator'
+            - '@form.factory'
+            - 'AuthorizationType'
+            - '%oauth2_server.endpoint.authorization.form.class%'
+
+    oauth2_server.endpoint.authorization_form_handler:
+        class: OAuth2Framework\ServerBundle\Form\Handler\AuthorizationFormHandler
+
+    oauth2_server.endpoint.authorization_endpoint_controller:
+        class: OAuth2Framework\ServerBundle\Controller\AuthorizationEndpointController
+        arguments:
+            - '@templating'
+            - '%oauth2_server.endpoint.authorization.template%'
+            - '@oauth2_server.endpoint.authorization_form_factory'
+            - '@oauth2_server.endpoint.authorization_form_handler'
+            - '@translator'
+            - '@router'
+            - '%oauth2_server.endpoint.authorization.login_route_name%'
+            - '%oauth2_server.endpoint.authorization.login_route_parameters%'
+            - '@httplug.message_factory'
+            - '@session'
+            - '@oauth2_server.endpoint.authorization_factory'
+            - '@oauth2_server.user_account.discovery_manager'
+            - '@oauth2_server.endpoint.authorization_consentscreen_extension_manager'
+
+    oauth2_server.endpoint.authorization_endpoint_pipe:
+        class: OAuth2Framework\Component\Middleware\Pipe
+        arguments:
+            - ['@oauth2_server.oauth2_response_middleware', '@oauth2_server.token_type.middleware', '@oauth2_server.endpoint.authorization_endpoint_controller']
+        tags:
+            - { name: controller.service_arguments }
+
+    oauth2_server.endpoint.authorization_factory:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\AuthorizationFactory
+        arguments:
+            - '@oauth2_server.endpoint.authorization_request_loader'
+            - '@oauth2_server.endpoint.authorization_parameter_checker'
+
+    oauth2_server.endpoint.authorization_request_loader:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\AuthorizationRequestLoader
+        arguments:
+            - '@oauth2_server.client.repository'
+
+    oauth2_server.endpoint.authorization_consentscreen_extension_manager:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\ConsentScreen\ExtensionManager
+
+
+    oauth2_server.endpoint.authorization_response_type_manager:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\ResponseTypeManager
+
+    oauth2_server.endpoint.authorization_parameter_checker:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\ParameterChecker\ParameterCheckerManager
+
+    oauth2_server.endpoint.authorization_redirect_uri_parameter_checker:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\ParameterChecker\RedirectUriParameterChecker
+        tags:
+            - { name: oauth2_server_authorization_parameter_checker }
+
+    oauth2_server.endpoint.authorization_prompt_parameter_checker:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\ParameterChecker\PromptParameterChecker
+
+    oauth2_server.endpoint.authorization_state_parameter_checker:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\ParameterChecker\StateParameterChecker
+        arguments:
+            - '%oauth2_server.endpoint.authorization.enforce_state%'
+        tags:
+            - { name: oauth2_server_authorization_parameter_checker }
+
+    oauth2_server.endpoint.authorization_response_type_and_mode_parameter_checker:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\ParameterChecker\ResponseTypeAndResponseModeParameterChecker
+        arguments:
+            - '@oauth2_server.endpoint.authorization_response_type_manager'
+            - '@oauth2_server.endpoint.response_mode_response_mode_manager'
+            - true
+        tags:
+            - { name: oauth2_server_authorization_parameter_checker }
+
+    oauth2_server.endpoint.authorization_request_uri_rule:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\Rule\RequestUriRule
+
+    oauth2_server.endpoint.authorization_response_types_rule:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\Rule\ResponseTypesRule
+        arguments:
+            - '@oauth2_server.endpoint.authorization_response_type_manager'
+
+    oauth2_server.endpoint.response_mode_response_mode_manager:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\ResponseMode\ResponseModeManager
+
+    oauth2_server.endpoint.response_mode_query_response_mode:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\ResponseMode\QueryResponseMode
+        arguments:
+            - '@httplug.message_factory'
+        tags:
+            - { name: oauth2_server_response_mode }
+
+    oauth2_server.endpoint.response_mode_fragment_response_mode:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\ResponseMode\FragmentResponseMode
+        arguments:
+            - '@httplug.message_factory'
+        tags:
+            - { name: oauth2_server_response_mode }
+
+
+    oauth2_server.endpoint.twig_form_post_response_renderer:
+        class: OAuth2Framework\ServerBundle\Service\TwigFormPostResponseRenderer
+        arguments:
+            - '@templating'
+            - '%oauth2_server.endpoint.authorization.response_mode.form_post.template%'
+
+    oauth2_server.endpoint.response_mode_form_post_response_mode:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\ResponseMode\FormPostResponseMode
+        arguments:
+            - '@oauth2_server.endpoint.twig_form_post_response_renderer'
+            - '@httplug.message_factory'
+        tags:
+            - { name: oauth2_server_response_mode }
+            - '%oauth2_server.endpoint.authorization.response_mode.form_post.template%'
+
+    oauth2_server.user_account.discovery_manager:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\UserAccountDiscovery\UserAccountDiscoveryManager
+
+    oauth2_server.user_account.login_parameter_checker:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\UserAccountDiscovery\LoginParameterChecker
+        tags:
+            - { name: oauth2_server_user_account_discovery }
+
+
+    oauth2_server.user_account.login_parameter_checker:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\UserAccountDiscovery\LoginParameterChecker
+        tags:
+            - { name: oauth2_server_user_account_discovery }
+
+#    oauth2_server.user_account.prompt_none_parameter_checker:
+#        class: OAuth2Framework\Component\AuthorizationEndpoint\UserAccountDiscovery\PromptNoneParameterChecker
+#        tags:
+#            - { name: oauth2_server_user_account_discovery }
+
+    oauth2_server.user_account.max_age_parameter_checker:
+        class: OAuth2Framework\Component\AuthorizationEndpoint\UserAccountDiscovery\MaxAgeParameterChecker
+        tags:
+            - { name: oauth2_server_user_account_discovery }
+
+    oauth2_server.user_account.symfony_user:
+        class: OAuth2Framework\ServerBundle\Service\SymfonyUserDiscovery
+        arguments:
+            - '@security.token_storage'
+            - '@security.authorization_checker'
+        tags:
+            - { name: oauth2_server_user_account_discovery }

@@ -26,20 +26,20 @@ class ResponseModeCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(ResponseModeManager::class)) {
+        if (!$container->hasDefinition('oauth2_server.endpoint.response_mode_response_mode_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition(ResponseModeManager::class);
+        $definition = $container->getDefinition('oauth2_server.endpoint.response_mode_response_mode_manager');
 
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_response_mode');
         foreach ($taggedServices as $id => $attributes) {
             $definition->addMethodCall('add', [new Reference($id)]);
         }
 
-        if ($container->hasDefinition(MetadataBuilder::class)) {
-            $metadata = $container->getDefinition(MetadataBuilder::class);
-            $metadata->addMethodCall('setResponseModeManager', [new Reference(ResponseModeManager::class)]);
+        if ($container->hasDefinition('oauth2_server.metadata_builder')) {
+            $metadata = $container->getDefinition('oauth2_server.metadata_builder');
+            $metadata->addMethodCall('setResponseModeManager', [new Reference('oauth2_server.endpoint.response_mode_response_mode_manager')]);
         }
     }
 }

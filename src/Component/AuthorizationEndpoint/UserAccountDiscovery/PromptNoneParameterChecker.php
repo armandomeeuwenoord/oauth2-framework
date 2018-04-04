@@ -33,6 +33,7 @@ class PromptNoneParameterChecker implements UserAccountDiscovery
      */
     public function check(Authorization $authorization)
     {
+        return;
         $userAccount = $authorization->getUserAccount();
         if (null === $userAccount && $authorization->hasPrompt('none')) {
             throw new CreateRedirectionException($authorization, OAuth2Exception::ERROR_LOGIN_REQUIRED, 'The resource owner is not logged in.');

@@ -1,0 +1,37 @@
+services:
+    oauth2_server.client_configuration_endpoint_pipe:
+        class: OAuth2Framework\Component\Middleware\Pipe
+        arguments:
+            - '@oauth2_server.oauth2_response_middleware'
+
+    oauth2_server.client_configuration_bearer_token:
+        class: OAuth2Framework\Component\BearerTokenType\BearerToken
+        arguments:
+            - '%oauth2_server.endpoint.client_configuration.realm%'
+            - true
+            - false
+            - false
+
+    oauth2_server.client_configuration_endpoint:
+        class: OAuth2Framework\Component\ClientConfigurationEndpoint\ClientConfigurationEndpoint
+        arguments:
+            - '@oauth2_server.client.repository'
+            - '@oauth2_server.client_configuration_bearer_token'
+            - '@command_bus'
+            - '@httplug.message_factory'
+            - '@oauth2_server.client_configuration_client_rule_manager'
+
+    oauth2_server.client_configuration_middleware:
+        class: OAuth2Framework\Component\ClientConfigurationEndpoint\ClientConfigurationMiddleware
+        arguments:
+            - '@oauth2_server.client.repository'
+
+    oauth2_server.client_configuration_route_rule:
+        class: OAuth2Framework\ServerBundle\Rule\ClientConfigurationRouteRule
+        arguments:
+            - '@router'
+
+    oauth2_server.client_configuration_client_rule_manager:
+        class: OAuth2Framework\Component\ClientRule\RuleManager
+
+

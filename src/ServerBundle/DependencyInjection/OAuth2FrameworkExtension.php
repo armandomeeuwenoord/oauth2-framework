@@ -13,11 +13,14 @@ declare(strict_types=1);
 
 namespace OAuth2Framework\ServerBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Config\FileLocator;
 use OAuth2Framework\ServerBundle\Component\Component;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\Loader;
 
 class OAuth2FrameworkExtension extends Extension implements PrependExtensionInterface
 {
@@ -62,6 +65,22 @@ class OAuth2FrameworkExtension extends Extension implements PrependExtensionInte
         foreach ($this->components as $component) {
             $component->load($config, $container);
         }
+
+        $loader = new Loader\YamlFileLoader(
+            $container,
+            new FileLocator(__DIR__.'/../Resources/config')
+        );
+        $loader->load('config.yml');
+        $loader->load('endpoint.yml');
+        $loader->load('oauth2_response.yml');
+        $loader->load('grant.yml');
+        $loader->load('client_configuration.yml');
+        $loader->load('client_registration.yml');
+        $loader->load('services.yml');
+        $loader->load('scope.yml');
+        $loader->load('token.yml');
+        $loader->load('openid_connect.yml');
+        $loader->load('user_account_discovery.yml');
     }
 
     /**
@@ -80,6 +99,7 @@ class OAuth2FrameworkExtension extends Extension implements PrependExtensionInte
      */
     public function prepend(ContainerBuilder $container)
     {
+
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
 

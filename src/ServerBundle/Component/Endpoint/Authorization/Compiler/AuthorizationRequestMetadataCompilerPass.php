@@ -26,11 +26,11 @@ class AuthorizationRequestMetadataCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(MetadataBuilder::class) || !$container->hasDefinition(AuthorizationRequestLoader::class)) {
+        if (!$container->hasDefinition('oauth2_server.metadata_builder') || !$container->hasDefinition(AuthorizationRequestLoader::class)) {
             return;
         }
 
-        $metadata = $container->getDefinition(MetadataBuilder::class);
+        $metadata = $container->getDefinition('oauth2_server.metadata_builder');
         $metadata->addMethodCall('setAuthorizationRequestLoader', [new Reference(AuthorizationRequestLoader::class)]);
     }
 }

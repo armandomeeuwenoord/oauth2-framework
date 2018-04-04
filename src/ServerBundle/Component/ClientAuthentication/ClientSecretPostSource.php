@@ -37,8 +37,6 @@ class ClientSecretPostSource implements Component
         $container->setParameter('oauth2_server.client_authentication.client_secret_post.enabled', $configs['client_authentication']['client_secret_post']['enabled']);
         if ($configs['client_authentication']['client_secret_post']['enabled']) {
             $container->setParameter('oauth2_server.client_authentication.client_secret_post.secret_lifetime', $configs['client_authentication']['client_secret_post']['secret_lifetime']);
-            $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/client_authentication'));
-            $loader->load('client_secret_post.php');
         }
     }
 

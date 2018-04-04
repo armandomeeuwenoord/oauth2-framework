@@ -36,8 +36,6 @@ class ClientSecretBasicSource implements Component
     {
         $container->setParameter('oauth2_server.client_authentication.client_secret_basic.realm', $configs['client_authentication']['client_secret_basic']['realm']);
         $container->setParameter('oauth2_server.client_authentication.client_secret_basic.secret_lifetime', $configs['client_authentication']['client_secret_basic']['secret_lifetime']);
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config/client_authentication'));
-        $loader->load('client_secret_basic.php');
     }
 
     /**

@@ -25,11 +25,11 @@ class RequestObjectCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('jose.jws_loader.request_object') || !$container->hasDefinition(AuthorizationRequestLoader::class)) {
+        if (!$container->hasDefinition('jose.jws_loader.request_object') || !$container->hasDefinition('oauth2_server.endpoint.authorization_request_loader')) {
             return;
         }
 
-        $metadata = $container->getDefinition(AuthorizationRequestLoader::class);
+        $metadata = $container->getDefinition('oauth2_server.endpoint.authorization_request_loader');
         $metadata->addMethodCall('enableRequestObjectSupport', [new Reference('jose.jws_loader.request_object'), new Reference('jose.claim_checker.request_object'), []]); //FIXME
         if (true === $container->getParameter('oauth2_server.endpoint.authorization.request_object.encryption.enabled')) {
             $required = $container->getParameter('oauth2_server.endpoint.authorization.request_object.encryption.required');

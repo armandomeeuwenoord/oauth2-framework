@@ -25,11 +25,11 @@ class TokenTypeCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(TokenTypeManager::class)) {
+        if (!$container->hasDefinition('oauth2_server.token_type.manager')) {
             return;
         }
 
-        $definition = $container->getDefinition(TokenTypeManager::class);
+        $definition = $container->getDefinition('oauth2_server.token_type.manager');
         $default = $container->getParameter('oauth2_server.token_type.default');
         $taggedServices = $container->findTaggedServiceIds('oauth2_server_token_type');
         $default_found = false;
