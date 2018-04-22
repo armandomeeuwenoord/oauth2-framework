@@ -56,14 +56,6 @@ class Client implements ContainsRecordedMessages, ClientInterface
     protected $parameters;
 
     /**
-     * ClientCredentials constructor.
-     */
-    public function __construct()
-    {
-        $this->parameters = new ArrayCollection();
-    }
-
-    /**
      * {@inheritdoc}
      */
     public static function getSchema(): string
